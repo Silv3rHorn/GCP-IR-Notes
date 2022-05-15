@@ -1,0 +1,48 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: index
+parts:
+  - caption: Administration
+    chapters: 
+    - file: admin/svc_acct
+      sections:
+      - file: admin/svc_acct/min_perm_target
+      - file: admin/svc_acct/min_perm_analyst
+      - file: admin/svc_acct/security_hardening
+    - file: admin/vm_instances_for_ir
+    - file: admin/gcloud_cli_kubectl_cs
+  - caption: Google Compute Engine (GCE)
+    chapters: 
+    - file: gce/create_4n6_disk_from_snapshot
+  - caption: Google Kubernetes Engine (GKE)
+    chapters: 
+    - file: gke/bg
+      sections:
+      - file: gke/bg/container_runtime
+      - file: gke/bg/container_filesystem
+    - file: gke/playbook
+      sections:
+      - file: gke/playbook/discover_cluster
+      - file: gke/playbook/app_logs
+      - file: gke/playbook/analysis
+        sections:
+        - file: gke/playbook/analysis/live_response
+        - file: gke/playbook/analysis/mount_container_fs
+        - file: gke/playbook/analysis/determine_pod_escape
+      - file: gke/playbook/containment
+  - caption: Virtual Private Cloud (VPC)
+    chapters: 
+    - file: vpc/packet_capture
+  - caption: Identity & Access Management (IAM)
+    chapters: 
+    - file: iam/access_tokens
+    - file: iam/restrict_ip
+  - caption: Log Explorer
+    chapters: 
+    - file: log_explorer/query_language
+    - file: log_explorer/log_review
+    - file: log_explorer/attacker_apis
+    - file: log_explorer/create_alerts
+    - file: log_explorer/detections

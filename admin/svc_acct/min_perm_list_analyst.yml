@@ -1,0 +1,29 @@
+title: IR (Analyst)
+description: Additional permissions for IR required in Analyst Project
+stage: GA
+includedPermissions:
+- compute.firewalls.create
+- compute.forwardingRules.create
+- compute.forwardingRules.delete
+- compute.instanceGroups.create
+- compute.instanceGroups.delete
+- compute.instanceGroups.update
+- compute.instances.attachDisk
+- compute.instances.create
+- compute.instances.setServiceAccount
+- compute.instances.setTags
+- compute.instances.use
+- compute.networks.addPeering
+- compute.networks.create
+- compute.networks.delete
+- compute.packetMirrorings.update
+- compute.regionBackendServices.create
+- compute.regionBackendServices.delete
+- compute.regionBackendServices.update
+- compute.regionBackendServices.use
+- compute.regionHealthChecks.create
+- compute.regionHealthChecks.delete
+- compute.subnetworks.create
+- compute.subnetworks.delete
+- compute.subnetworks.use
+- compute.subnetworks.useExternalIp
