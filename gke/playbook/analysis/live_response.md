@@ -1,7 +1,7 @@
 # Live Response
 
 ```{note}
-Commands listed are mainly for triaging. Commands to perform more in-depth investigations are not included.
+Commands listed are mainly for triaging. Commands to perform more in-depth investigations are excluded.
 ```
 
 * Container OS is typically minimal and many native binaries are not available
@@ -40,6 +40,7 @@ kubectl exec <pod-name> [-c <container-name>] -- cat /etc/passwd
 kubectl exec <pod-name> [-c <container-name>] -- cat /etc/hosts
 
 # get network connections of container
+# warning: installing netstat might destroy evidence
 kubectl exec <pod-name> [-c <container-name>] -- apt update
 kubectl exec <pod-name> [-c <container-name>] -- apt install net-tools
 kubectl exec <pod-name> [-c <container-name>] -- netstat -pano
@@ -54,7 +55,7 @@ kubectl exec <pod-name> [-c <container-name>] -- ifconfig -a
 kubectl logs <pod-name> -c <container-name>
 
 # copy files from container to host
-kubectl cp <pod-name>:<src-file> <dst-file> -c <container-name>
+kubectl cp <namespace>/<pod-name>:<src-file> <dst-file> -c <container-name>
 
 # copy files from host to pod
 kubectl cp <src-file-path> <namespace>/<pod-name>:<dst-file-path>
@@ -96,6 +97,7 @@ docker exec -it <container-id> cat /etc/passwd
 docker exec -it <container-id> cat /etc/hosts
 
 # get network connections of container
+# warning: installing netstat might destroy evidence
 docker exec -it <container-id> /bin/sh
 apt update
 apt install net-tools
@@ -153,6 +155,7 @@ crictl exec -it <container-id> cat /etc/passwd
 crictl exec -it <container-id> cat /etc/hosts
 
 # get network connections of container
+# warning: installing netstat might destroy evidence
 crictl exec -it <container-id> /bin/sh
 apt update
 apt install net-tools

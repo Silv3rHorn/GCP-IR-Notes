@@ -43,7 +43,7 @@ cd <mount_pt>
 
 ```shell
 # get container name
-kubectl describe pod <pod-name>
+kubectl describe pod <pod_name>
 
 kubectl exec <pod-name> [-c <container-name>] -- /bin/sh
 cd <log-location>

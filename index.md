@@ -7,3 +7,6 @@ This documentation is **NOT** meant to be a complete guide to performing IR for 
 To gain a better understanding of GCP and/or how to perform Incident Response for it, the following courses are recommended
 - [A Cloud Guru GCP Courses](https://acloudguru.com/browse-training?type=course&platform%5B0%5D=GCP)
 - [SANS FOR509: Enterprise Cloud Forensics and Incident Response](https://www.sans.org/cyber-security-courses/enterprise-cloud-forensics-incident-response/)
+
+To find the raw source code for this website, visit the [Github repository](https://github.com/Silv3rHorn/GCP-IR-Notes).  
+To provide feedback, raise an issue [here](https://github.com/Silv3rHorn/GCP-IR-Notes/issues).

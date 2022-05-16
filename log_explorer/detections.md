@@ -20,7 +20,7 @@ protoPayload.request.bucket.retentionDays<30
 ```
 
 ## Generation of Access Token
-- By default disabled. Enable Data Read & Data Write for Identity and Access Management (IAM) API
+- By default disabled. Enable `Admin Read` for Identity and Access Management (IAM) API
 ```
 resource.type="service_account" protoPayload.methodName="GenerateAccessToken"
 ```
@@ -29,4 +29,3 @@ resource.type="service_account" protoPayload.methodName="GenerateAccessToken"
 ```
 protoPayload.authenticationInfo.serviceAccountDelegationInfo:*
 ```
-

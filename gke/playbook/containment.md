@@ -3,7 +3,7 @@
 ## Isolate Compromised Workloads
 
 * Move uncompromised workloads and future deployment of workloads to other nodes
-* Reduces an adversary’s ability to impact other workloads on the same node
+* Objective: Reduce an adversary’s ability to impact other workloads on the same node
 
 ```shell
 # cordon node with compromised workload to ensure no other pods are scheduled on it
@@ -24,13 +24,13 @@ kubectl drain <node_name> --pod-selector='!quarantine'
 ### Network Policy Level
 
 ```{note}
-This can only be used if Network policy is enabled for the cluster (disabled by default in GKE). To determine if it had been manually enabled, run the command `gcloud container clusters describe <cluster-name> —zone <zone> —project <project> | grep -i "networkpolicy:" -a3`.
+This can only be used if Network Policy is enabled for the cluster (disabled by default in GKE). To determine if it had been manually enabled, run the command `gcloud container clusters describe <cluster_name> —zone <zone> —project <project> | grep -i "networkpolicy:" -a3`.
 
-**DO NOT** enable Network policy after the incident had occurred. This would drain, delete, and recreate all nodes in all node pools of this cluster. As a result, all temporary storage volumes (including evidence) will be deleted
+**DO NOT** enable Network Policy for the cluster after the incident had occurred. This would drain, delete, and recreate all nodes in all node pools of the cluster. As a result, all temporary storage volumes (including evidence) will be deleted
 ```
 
 * A deny all traffic rule may help stop an attack that is already underway by severing all connections to the pod
-* The following Network Policy will apply to all pods with the label `app=nginx`
+* The following Network Policy, when implemented, will apply to all pods with the label `app=nginx`
 ```yaml
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -55,7 +55,7 @@ kubectl get networkpolicies
 ```
 
 ```{warning}
-It takes ~5mins for the applied network policy to take effect.
+It takes ~5mins for the applied Network Policy to take effect.
 ```
 
 ### Service Level
@@ -70,7 +70,7 @@ It takes ~5mins for the applied network policy to take effect.
 # list all services
 kubectl get services
         
-# delete service OR
+# either delete service OR
 kubectl delete service <service_name>
 
 # modify selector of associated service
@@ -81,11 +81,11 @@ kubectl patch service <service_name> -p '{"spec":{"selector":{"<key>": "<value>"
 
 * Prevents new outbound connections to other nodes in the cluster using an egress rule
 * Prevents inbound connections to the compromised node using an ingress rule
-* Allows SSH inbound connections to the compromised node
+* Allows SSH inbound connections to the compromised node from defined IP only
 
 ```shell
 # tag the compromised node to which the firewall rule would be applied
-gcloud compute instances add-tags <node-name> --zone <zone-name> --tags quarantine
+gcloud compute instances add-tags <node_name> --zone <zone_name> --tags quarantine
 
 # create fireawall rule to deny all egress TCP traffic from instances with the quarantine tag
 gcloud compute firewall-rules create quarantine-egress-deny \
@@ -98,7 +98,7 @@ gcloud compute firewall-rules create quarantine-egress-deny \
     --target-tags quarantine
     
 # create a firewall rule to deny all ingress TCP traffic to instances with the quarantine tag
-# use priority of 1, which allows overriding with another rule that allows SSH from a specified node
+# use priority of 1, which allows overriding with another rule that allows SSH from a specified IP
 gcloud compute firewall-rules create quarantine-ingress-deny \
     --network <network_name> \
     --action deny \
@@ -146,9 +146,9 @@ gcloud compute instances delete-access-config <node_name> \
 ## Pause/Delete/Restart Pods
 
 * It is **NOT POSSIBLE** to **pause** containers (or pods) in Kubernetes, like how it is possible with `docker pause` command
-* Terminating pods would destroy pod storage to varying levels, which would make analysis impossible
-    * Docker container runtime (Graph-Driver; overlay2) - All pod storage deleted
-    * containerd (Snapshotters; overlayfs) - Read-Only snapshot layers (already available from the original container image) are preserved, but Read-Write snapshot layers are deleted
+* **NOT RECOMMENDED** as terminating pods would destroy pod storage to varying levels, which would make analysis impossible
+    * docker runtime (Graph-Driver; overlay2) - All pod storage deleted
+    * containerd runtime (Snapshotters; overlayfs) - Read-Only snapshot layers (already available from the original container image) are preserved, but Read-Write snapshot layers are deleted
 * Pods can be terminated after Live Response had been performed and all necessary evidence had been collected
 * If the to-be-deleted pod is managed by a higher-level Kubernetes construct (e.g. `Deployment`, `DaemonSet`, `ReplicaSet`), deleting the pod **schedules a new pod** (which run new containers)
     * Requires deletion of the high-level construct to delete the pod and prevent re-scheduling

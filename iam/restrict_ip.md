@@ -14,7 +14,7 @@ During incident response, to contain/remediate an incident, there are times when
 :name: restrict_ip_1
 ```
 * It is currently not possible to restrict roles with a condition that the activity must (not) be performed from specified IP addresses 
-* [Feature request (pending for 2 years)](https://issuetracker.google.com/issues/155582948)
+    * [Feature request (pending for 2 years)](https://issuetracker.google.com/issues/155582948)
 
 ## Restrict Access to Cloud Storage Bucket
 

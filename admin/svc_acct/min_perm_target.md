@@ -14,7 +14,7 @@ Provided minimal permissions are not meant to be a complete set of permissions n
 
 ## Grant Permissions Guide
 
-The Organisation / Project owner is expected to use [gcloud cli](https://cloud.google.com/sdk/gcloud) and [this yml file](./min_perm_list_target.yml) that contains the minimum permissions to perform the following steps.
+The Organisation / Project owner is expected to use [gcloud cli](https://cloud.google.com/sdk/gcloud) and [this yml file](https://raw.githubusercontent.com/Silv3rHorn/GCP-IR-Notes/master/admin/svc_acct/min_perm_list_target.yml) that contains the minimum permissions to perform the following steps.
 
 To grant the permissions **org-wide**:
 ```shell

@@ -43,7 +43,7 @@ td {
     - GetSessionToken
     - service_account
     - GenerateAccessToken
-    - Require `Data Read` & `Data Write` to be enabled for Identity and Access Management (IAM) API
+    - Require `Admin Read` to be enabled for Identity and Access Management (IAM) API
 *   - 
     - 
     - StartSession
@@ -75,7 +75,7 @@ td {
     - GetSecretValue
     - audited_resource
     - google.cloud.secretmanager.v1.SecretManagerService.GetSecret
-    - NIL
+    - No longer able to generate this log event on GCP as of 16 May 2022
 *   - EC2
     - GCE
     - GetPasswordData
@@ -179,7 +179,7 @@ td {
     - AssumeRole
     - service_account
     - GenerateAccessToken
-    - Require `Data Read` & `Data Write` to be enabled for Identity and Access Management (IAM) API
+    - Require `Admin Read` to be enabled for Identity and Access Management (IAM) API
 *   - 
     - 
     - UpdateAssumeRolePolicy
@@ -248,7 +248,7 @@ td {
     - All
     - *.list  
     *.aggregatedList
-    - Might require `Data Read` API to be enabled
+    - Require `Admin Read` and `Data Read` APIs to be enabled
 *   - 
     - 
     - Describe*
@@ -345,8 +345,8 @@ td {
     - 
     - PutImage
     - audited_resource
-    - Docker-PutManifest
-    - Require `Data Read` to be enabled for Artifact Registry API
+    - Docker-FinishUpload *followed by* Docker-PutManifest
+    - Require `Data Read` and `Data Write` to be enabled for Artifact Registry API
 ```
 ````
 
@@ -365,14 +365,14 @@ td {
     - Cloud Storage
     - CopyObject
     - gcs_bucket
-    - storage.objects.create
-    - Require `Data Read` to be enabled for Google Cloud Storage API 
+    - storage.objects.get *followed by* storage.objects.create
+    - Require `Data Read` and `Data Write` to be enabled for Google Cloud Storage API 
 *   - 
     - 
     - GetObject
     - gcs_bucket
     - storage.objects.get
-    - Require `Data Read` & `Data Write` to be enabled for Google Cloud Storage API
+    - Require `Data Read` to be enabled for Google Cloud Storage API
 *   - EC2
     - GCE
     - GetConsoleScreenshot

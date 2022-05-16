@@ -2,13 +2,15 @@
 
 * Tokens can be used to authenticate to Google Cloud API
 * Information about the token can be obtained via https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=<access_token>
+
 ```{image} access_tokens_1.jpg
 :name: access_tokens_1
 ```
+
 *   * `issued_to` 
-        * if 20 digits - Internal app or associated with a service account
-        * if `<12 digits>-<32 chars>.`[`apps.googleusercontent.com`](http://apps.googleusercontent.com/) - Associated with external app
-    * `expires_in` - Value in seconds
+        * If 20 digits - Internal app or associated with a service account
+        * If `<12 digits>-<32 chars>.`[`apps.googleusercontent.com`](http://apps.googleusercontent.com/) - Associated with external app
+    * `expires_in` - Value is in seconds
     * `access_type` - Indicates whether your application can refresh access tokens when the user is not present at the browser
         * `online` - Default value. Application cannot automatically refresh access tokens
         * `offline` - Application can automatically refresh access tokens using provided refresh token
@@ -45,7 +47,7 @@ curl --location --request POST 'https://oauth2.googleapis.com/token' \
     * Either
         * Base identity has `iam.serviceAccountTokenCreator` role for Target identity 
     * OR
-        * Base identity has the following permissions
+        * Base identity has the following project-wide permissions
             * `iam.serviceAccounts.get`
             * `iam.serviceAccounts.getAccessToken`
             * `iam.serviceAccounts.getOpenIdToken`
@@ -70,14 +72,14 @@ gcloud iam service-accounts add-iam-policy-binding <target_identity> \
     "lifetime": '3600s'
 }
 
-# [OPTIONAL] generate id token
+# [OPTIONAL] generate id token while authenticated to gcp cli as base identity
 curl -X POST \
 -H "Authorization: Bearer "$(gcloud auth print-access-token) \
 -H "Content-Type: application/json; charset=utf-8" \
 -d @id_token_request.json \
 "https://iamcredentials.googleapis.com/v1/projects/-/serviceAccounts/<target_identity>:generateIdToken"
 
-# generate access token
+# generate access token while authenticated to gcp cli as base identity
 curl -X POST \
 -H "Authorization: Bearer "$(gcloud auth print-access-token) \
 -H "Content-Type: application/json; charset=utf-8" \

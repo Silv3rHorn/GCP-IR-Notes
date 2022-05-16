@@ -7,7 +7,7 @@ Besides the [non-read permissions at the **target organisation / project**](min_
 
 ## Grant Permissions Guide
 
-To simplify matters, the service account can be granted `Editor` role in the analyst project. If that is not possible, a specific set of minimal permissions and `Compute Security Admin` role can be granted using [gcloud cli](https://cloud.google.com/sdk/gcloud) and [this yml file](./min_perm_list_analyst) to the service account.
+To simplify matters, the service account can be granted `Editor` role in the analyst project. If that is not possible, a specific set of minimal permissions and `Compute Security Admin` role can be granted using [gcloud cli](https://cloud.google.com/sdk/gcloud) and [this yml file](https://raw.githubusercontent.com/Silv3rHorn/GCP-IR-Notes/master/admin/svc_acct/min_perm_list_analyst.yml) to the service account.
 
 ```shell
 # create a custom role with the required permissions

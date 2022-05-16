@@ -1,6 +1,6 @@
 # Create Alerts
 
-GCP allows for the creation of alerts based on specified log-based criteria, but it is not obvious how it can be done.
+GCP allows for the creation of alerts based on specified log-based criteria, but it is not obvious how this can be done.
 
 The process consists of 4 main steps:
 - [Add / Edit Notification Channels](https://console.cloud.google.com/monitoring/alerting/notifications)
@@ -10,10 +10,12 @@ The process consists of 4 main steps:
 
 ## Create Logs-based Metric
 1. Access https://console.cloud.google.com/logs/metrics
-2. Click on `CREATE METRIC` under User-defined Metrics
-```{image} create_alerts_1.jpg
-:name: create_alerts_1
-```
+
+    ```{image} create_alerts_1.jpg
+    :name: create_alerts_1
+    ```
+
+2. Click on `CREATE METRIC` under User-defined metrics
 3. Provide the requested information
     - **Metric Type**: `Counter`
     - **Details**
@@ -25,11 +27,14 @@ The process consists of 4 main steps:
 4. Click `CREATE METRIC`
 
 ## Create Alerting Policy
+
 1. Access https://console.cloud.google.com/monitoring/alerting
+
+    ```{image} create_alerts_2.jpg
+    :name: create_alerts_2
+    ```
+
 2. Click on `Create Policy` at the menu bar
-```{image} create_alerts_2.jpg
-:name: create_alerts_2
-```
 3. Click `SELECT A METRIC`
 4. Disable `Show only active resources & metrics`
 5. Search for and select `logging/user/<log_metric_name_configured_above>`

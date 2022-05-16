@@ -1,8 +1,7 @@
 # Query Language
 
-```{tip}
-Whenever possible, always define `resource.type` in the search query to speed up the search
-```
+````{tip}
+Whenever possible, always define `resource.type` in the search query to speed up the search. Difference in speed is shown in the following table:
 ```{list-table}
 :header-rows: 1
 
@@ -21,6 +20,7 @@ Whenever possible, always define `resource.type` in the search query to speed up
     - 26 mins (Timeout error)
     - Did not show available results before 19 Jan 2022
 ```
+````
 
 ## Syntax
 
@@ -29,7 +29,7 @@ Whenever possible, always define `resource.type` in the search query to speed up
 * Use `=~` to do a regex search
 * Use `:*` to test if a field exists without testing for a particular value in the field
 
-```
+```shell
 # examples
 # partial match
 protoPayload.methodName:"instances.insert"

@@ -3,10 +3,11 @@
 * For the differences between `docker` and `containerd` container runtimes, and how to identify which is being utilised, pls refer to [Container Runtime](../../bg/container_runtime.md)
 
 ```{admonition} Pre-Requisites
-* A forensic disk had been created from a snapshot of the Kubernetes node hosting the container
-* Forensic disk had been attached to the analysis VM
-* Mount directory had been created to mount the forensic disk filesystem - `/mnt/evidence/disk`
-* Mount directory had been created to mount the container filesystem - `/mnt/evidence/container`
+* Steps in [Create Disk Snapshot & Forensic Disk](../../../gce/create_4n6_disk_from_snapshot.ipynb) had been performed, i.e.
+  * A forensic disk had been created from a snapshot of the Kubernetes node hosting the container
+  * Forensic disk had been attached to the analysis VM
+* Mount directory (`/mnt/evidence/disk`) had been created to mount the forensic disk filesystem
+* Mount directory (`/mnt/evidence/container`) had been created to mount the container filesystem
 * Analyst has SSH access to the analysis VM
 ```
 
@@ -71,7 +72,7 @@ sudo rm -rf /mnt/evidence/container/*
 
 Support Containers according to container-explorer documentation are:
 * When a GKE cluster is created, several containers are created to support the Kubernetes
-* These clusters are used to support Kubernetes only and may not be interesting for the investigation.
+* These containers are used to support Kubernetes only and may not be interesting for the investigation.
 * Kubernetes support containers are hidden by default when the global flag `--support-container-data=supportcontainer.yaml` is used
     * `supportcontainer.yaml` contains the commonly known hostname, image, and labels used to identify the support containers
 * When `--support-container-data` is used, the `list` and `mount-all` commands automatically ignore the known support containers where applicable
@@ -144,6 +145,6 @@ lowerdir= \
 
 * From the mount command, we can see that
     * `upperdir` and `workdir` parameters are not used (since it is mounted as read-only)
-    * `lowerdir` references the exact same snapshot layers from the sample output of our `mount` command on the **Kubernetes Node**, except that is pre-pended with the original upper snapshot layer `155`
+    * `lowerdir` references the exact same snapshot layers from the sample output of our `mount` command on the **Kubernetes Node**, except that is pre-pended with the original `upperdir` snapshot layer `155`
     *  mount destination is `/mnt/evidence/container`
 
