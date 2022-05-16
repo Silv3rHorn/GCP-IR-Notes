@@ -9,12 +9,12 @@ Whenever possible, always define `resource.type` in the search query to speed up
     - Time Period
     - Approx Search Duration
     - Remarks
-*   - `resource.type="gce_disk" protoPayload.methodName="v1.compute.disks.insert`
+*   - `resource.type="gce_disk" protoPayload.methodName="v1.compute.disks.insert"`
     - Last 365 days  
     31 Mar 2021 - 31 Mar 2022
     - 4 mins
     - All results returned
-*   - `protoPayload.methodName="v1.compute.disks.insert`
+*   - `protoPayload.methodName="v1.compute.disks.insert"`
     - Last 365 days  
     31 Mar 2021 - 31 Mar 2022
     - 26 mins (Timeout error)
