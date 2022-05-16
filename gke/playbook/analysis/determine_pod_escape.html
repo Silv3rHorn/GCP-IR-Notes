@@ -1,0 +1,1073 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Determine Pod Escape (ipynb) &#8212; GCP IR Notes</title>
+    
+  <link href="../../../_static/css/theme.css" rel="stylesheet">
+  <link href="../../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../../../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/clipboard.min.js"></script>
+    <script src="../../../_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../../../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Containment" href="../containment.html" />
+    <link rel="prev" title="Mount Container Filesystem" href="mount_container_fs.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../../../_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">GCP IR Notes</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../index.html">
+   Welcome
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Administration
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../../admin/svc_acct.html">
+   Service Account
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../admin/svc_acct/min_perm_target.html">
+     Minimal Role / Permissions for Target
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../admin/svc_acct/min_perm_analyst.html">
+     Minimal Role / Permissions for Analyst
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../admin/svc_acct/security_hardening.html">
+     Security Hardening
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../admin/vm_instances_for_ir.html">
+   VM Instances for IR
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../admin/gcloud_cli_kubectl_cs.html">
+   gcloud CLI &amp; kubectl Cheatsheet
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Google Compute Engine (GCE)
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../gce/create_4n6_disk_from_snapshot.html">
+   Create Disk Snapshot &amp; Forensic Disk (ipynb)
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Google Kubernetes Engine (GKE)
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../bg.html">
+   Background
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../bg/container_runtime.html">
+     Container Runtime
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../bg/container_filesystem.html">
+     Container Filesystem
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="../../playbook.html">
+   Playbook
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../discover_cluster.html">
+     Discover Cluster (ipynb)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../app_logs.html">
+     Application Logs
+    </a>
+   </li>
+   <li class="toctree-l2 current active has-children">
+    <a class="reference internal" href="../analysis.html">
+     Analysis
+    </a>
+    <input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+    <label for="toctree-checkbox-4">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul class="current">
+     <li class="toctree-l3">
+      <a class="reference internal" href="live_response.html">
+       Live Response
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="mount_container_fs.html">
+       Mount Container Filesystem
+      </a>
+     </li>
+     <li class="toctree-l3 current active">
+      <a class="current reference internal" href="#">
+       Determine Pod Escape (ipynb)
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../containment.html">
+     Containment
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Virtual Private Cloud (VPC)
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../vpc/packet_capture.html">
+   Full Packet Capture (ipynb)
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Identity &amp; Access Management (IAM)
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../iam/access_tokens.html">
+   Access Tokens
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../iam/restrict_ip.html">
+   Restrict Access by IP
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Log Explorer
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../log_explorer/query_language.html">
+   Query Language
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../log_explorer/log_review.html">
+   Log Review (ipynb)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../log_explorer/attacker_apis.html">
+   Attackers’ APIs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../log_explorer/create_alerts.html">
+   Create Alerts
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../log_explorer/detections.html">
+   Detections
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../../../_sources/gke/playbook/analysis/determine_pod_escape.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/Silv3rHorn/GCP-IR-Notes"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/Silv3rHorn/GCP-IR-Notes/issues/new?title=Issue%20on%20page%20%2Fgke/playbook/analysis/determine_pod_escape.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/Silv3rHorn/GCP-IR-Notes/master?urlpath=tree/gke/playbook/analysis/determine_pod_escape.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../../../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#install-dependencies">
+   Install Dependencies
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#imports-and-configuration">
+   Imports and Configuration
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#define-environment-variables">
+   Define Environment Variables
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#get-cluster-nodeconfig">
+   Get Cluster
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     nodeConfig
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#connect-to-cluster">
+   Connect to Cluster
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#get-pods-security-context">
+   Get Pods’ Security Context
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#get-containers-security-context-precedence-over-pods">
+   Get Containers’ Security Context (Precedence over Pods’)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#check-pods-hostpid-hostipc-hostnetwork-config">
+   Check Pods’
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     hostPID
+    </span>
+   </code>
+   ,
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     hostIPC
+    </span>
+   </code>
+   ,
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     hostNetwork
+    </span>
+   </code>
+   Config
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#check-pods-hostpath-config">
+   Check Pods’
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     hostpath
+    </span>
+   </code>
+   Config
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Determine Pod Escape (ipynb)</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#install-dependencies">
+   Install Dependencies
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#imports-and-configuration">
+   Imports and Configuration
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#define-environment-variables">
+   Define Environment Variables
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#get-cluster-nodeconfig">
+   Get Cluster
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     nodeConfig
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#connect-to-cluster">
+   Connect to Cluster
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#get-pods-security-context">
+   Get Pods’ Security Context
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#get-containers-security-context-precedence-over-pods">
+   Get Containers’ Security Context (Precedence over Pods’)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#check-pods-hostpid-hostipc-hostnetwork-config">
+   Check Pods’
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     hostPID
+    </span>
+   </code>
+   ,
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     hostIPC
+    </span>
+   </code>
+   ,
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     hostNetwork
+    </span>
+   </code>
+   Config
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#check-pods-hostpath-config">
+   Check Pods’
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     hostpath
+    </span>
+   </code>
+   Config
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="determine-pod-escape-ipynb">
+<h1>Determine Pod Escape (ipynb)<a class="headerlink" href="#determine-pod-escape-ipynb" title="Permalink to this headline">¶</a></h1>
+<p><strong>References</strong></p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://bishopfox.com/blog/kubernetes-pod-privilege-escalation">Bad Pods: Kubernetes Pod Privilege Escalation</a></p></li>
+<li><p><a class="reference external" href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#podsecuritycontext-v1-core">Pod Security Context</a></p></li>
+<li><p><a class="reference external" href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#securitycontext-v1-core">Container Security Context</a></p></li>
+</ul>
+<div class="section" id="install-dependencies">
+<h2>Install Dependencies<a class="headerlink" href="#install-dependencies" title="Permalink to this headline">¶</a></h2>
+<p>Install the dependencies <code class="docutils literal notranslate"><span class="pre">ipywidgets</span></code>, <code class="docutils literal notranslate"><span class="pre">pandas</span></code> and <code class="docutils literal notranslate"><span class="pre">kubectl</span></code>. Skip the next cell if they had already been installed.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># install ipywidgets, pandas</span>
+<span class="o">!</span>pip3 install ipywidgets pandas
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># install kubectl</span>
+<span class="o">!</span>gcloud components install kubectl --quiet
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="imports-and-configuration">
+<h2>Imports and Configuration<a class="headerlink" href="#imports-and-configuration" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">ipywidgets</span> <span class="k">as</span> <span class="nn">widgets</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span><span class="p">,</span> <span class="n">display</span>
+
+<span class="c1"># extend width of widgets</span>
+<span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;&lt;style&gt;</span>
+<span class="s1">    .widget-label { min-width: 18ex !important; font-weight:bold; }</span>
+<span class="s1">&lt;/style&gt;&#39;&#39;&#39;</span><span class="p">))</span>
+<span class="c1"># extend width of cells</span>
+<span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="s2">&quot;&lt;style&gt;.container { width:100% !important; }&lt;/style&gt;&quot;</span><span class="p">))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="s2">&quot;&lt;style&gt;.output_result { max-width:100% !important; }&lt;/style&gt;&quot;</span><span class="p">))</span>
+
+<span class="c1"># extend width and max rows of pandas output</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_colwidth&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_rows&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># [OPTIONAL] authenticate using your service account</span>
+<span class="o">!</span>gcloud auth activate-service-account --key-file &lt;json_key_file&gt;
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="define-environment-variables">
+<h2>Define Environment Variables<a class="headerlink" href="#define-environment-variables" title="Permalink to this headline">¶</a></h2>
+<p><strong>Specify the following information</strong></p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Fields</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Source</span> <span class="pre">Project</span></code></p></td>
+<td><p>Project id of target project that contains the k8s cluster</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Cluster</span> <span class="pre">Name</span></code></p></td>
+<td><p>Name of k8s cluster</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Cluster</span> <span class="pre">Type</span></code></p></td>
+<td><p>Type of k8s cluster (i.e. Regional or Zonal)</p></td>
+</tr>
+</tbody>
+</table>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># create text boxes for user input</span>
+<span class="n">src_project</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Source Project: &quot;</span><span class="p">,</span> <span class="n">disabled</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">cluster_name</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Cluster Name: &quot;</span><span class="p">,</span> <span class="n">disabled</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">cluster_type</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Dropdown</span><span class="p">(</span><span class="n">options</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Regional&#39;</span><span class="p">,</span> <span class="s2">&quot;Zonal&quot;</span><span class="p">],</span> <span class="n">value</span><span class="o">=</span><span class="s1">&#39;Zonal&#39;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Cluster Type: &quot;</span><span class="p">,</span> <span class="n">disabled</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">src_project</span><span class="p">,</span> <span class="n">cluster_name</span><span class="p">,</span> <span class="n">cluster_type</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>If <code class="docutils literal notranslate"><span class="pre">Cluster</span> <span class="pre">Type</span></code> is <code class="docutils literal notranslate"><span class="pre">Regional</span></code>, specify the <code class="docutils literal notranslate"><span class="pre">Cluster</span> <span class="pre">Region</span></code> (e.g. <code class="docutils literal notranslate"><span class="pre">asia-southeast1</span></code>).<br />
+Else, if <code class="docutils literal notranslate"><span class="pre">Cluster</span> <span class="pre">Type</span></code> is <code class="docutils literal notranslate"><span class="pre">Zonal</span></code>, specify the <code class="docutils literal notranslate"><span class="pre">Cluster</span> <span class="pre">Zone</span></code> (e.g. <code class="docutils literal notranslate"><span class="pre">asia-southeast1-b</span></code>).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># create text boxes for user input</span>
+<span class="k">if</span> <span class="n">cluster_type</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s1">&#39;Regional&#39;</span><span class="p">:</span>
+    <span class="n">cluster_region</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Cluster Region: &quot;</span><span class="p">,</span> <span class="n">disabled</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">cluster_region</span><span class="p">)</span>
+<span class="k">elif</span> <span class="n">cluster_type</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s1">&#39;Zonal&#39;</span><span class="p">:</span>
+    <span class="n">cluster_zone</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Cluster Zone: &quot;</span><span class="p">,</span> <span class="n">disabled</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">cluster_zone</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># store user input in environment variables for use in subsequent comamnds</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;SRC_PROJECT&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">src_project</span><span class="o">.</span><span class="n">value</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;CLUSTER_NAME&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cluster_name</span><span class="o">.</span><span class="n">value</span>
+
+<span class="k">if</span> <span class="n">cluster_type</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s1">&#39;Regional&#39;</span><span class="p">:</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;CLUSTER_REGION&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cluster_region</span><span class="o">.</span><span class="n">value</span>
+<span class="k">elif</span> <span class="n">cluster_type</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s1">&#39;Zonal&#39;</span><span class="p">:</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;CLUSTER_ZONE&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cluster_zone</span><span class="o">.</span><span class="n">value</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="get-cluster-nodeconfig">
+<h2>Get Cluster <code class="docutils literal notranslate"><span class="pre">nodeConfig</span></code><a class="headerlink" href="#get-cluster-nodeconfig" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">cluster_type</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s1">&#39;Regional&#39;</span><span class="p">:</span>
+    <span class="o">!</span>gcloud container clusters describe <span class="nv">$CLUSTER_NAME</span> --region <span class="nv">$CLUSTER_REGION</span> --project <span class="nv">$SRC_PROJECT</span> --format<span class="o">=</span><span class="s1">&#39;json&#39;</span> &gt; cluster_descr.json
+<span class="k">elif</span> <span class="n">cluster_type</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s1">&#39;Zonal&#39;</span><span class="p">:</span>
+    <span class="o">!</span>gcloud container clusters describe <span class="nv">$CLUSTER_NAME</span> --zone <span class="nv">$CLUSTER_ZONE</span> --project <span class="nv">$SRC_PROJECT</span> --format<span class="o">=</span><span class="s1">&#39;json&#39;</span> &gt; cluster_descr.json
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;./cluster_descr.json&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">infile</span><span class="p">:</span>
+    <span class="n">cluster_descr</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">infile</span><span class="p">)</span>
+<span class="n">cluster_descr_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">json_normalize</span><span class="p">(</span><span class="n">cluster_descr</span><span class="p">[</span><span class="s1">&#39;nodeConfig&#39;</span><span class="p">])</span>
+
+<span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;metadata.disable-legacy-endpoints&#39;</span><span class="p">,</span> <span class="s1">&#39;serviceAccount&#39;</span><span class="p">,</span> <span class="s1">&#39;oauthScopes&#39;</span><span class="p">]</span>
+<span class="n">display</span><span class="p">(</span><span class="n">cluster_descr_df</span><span class="p">[</span><span class="n">columns</span><span class="p">]</span>
+       <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;metadata.disable-legacy-endpoints&#39;</span><span class="p">:</span> <span class="s1">&#39;disable-legacy-endpoints&#39;</span><span class="p">}))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">disable-legacy-endpoints</span></code></p>
+<ul class="simple">
+<li><p>Ensure that value is <code class="docutils literal notranslate"><span class="pre">true</span></code></p></li>
+<li><p>When <code class="docutils literal notranslate"><span class="pre">true</span></code>, config requires specified header is present when querying GCP metadata service, and disable querying of <code class="docutils literal notranslate"><span class="pre">v1beta1</span></code> endpoints</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">serviceAccount</span></code></p>
+<ul class="simple">
+<li><p>Service account attached to cluster</p></li>
+<li><p>Default value is <code class="docutils literal notranslate"><span class="pre">default</span></code>, which is the <code class="docutils literal notranslate"><span class="pre">&lt;12-digit&gt;-compute&#64;developer.gserviceaccount.com</span></code></p></li>
+<li><p>If not <code class="docutils literal notranslate"><span class="pre">default</span></code>, worthwhile to check the IAM roles/permissions granted to this service account</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">oauthScopes</span></code></p>
+<ul class="simple">
+<li><p>Scope of service account attached to cluster</p></li>
+<li><p>Ensure that it <strong>IS NOT</strong> <a class="reference external" href="https://www.googleapis.com/auth/cloud-platform">https://www.googleapis.com/auth/cloud-platform</a>, which enables the authentication to any API function and leverage the full powers of IAM permissions assigned to the service account</p></li>
+<li><p>Default is <code class="docutils literal notranslate"><span class="pre">devstorage.read_only</span></code>, <code class="docutils literal notranslate"><span class="pre">logging.write</span></code>, <code class="docutils literal notranslate"><span class="pre">monitoring</span></code>, <code class="docutils literal notranslate"><span class="pre">servicecontrol</span></code>, <code class="docutils literal notranslate"><span class="pre">service.management.readonly</span></code>, <code class="docutils literal notranslate"><span class="pre">trace.append</span></code>, which prevent the leveraging of full powers of IAM permissions assigned to the service account</p></li>
+<li><p>If <strong>NOT</strong> the above, scope is user-customised</p></li>
+<li><p>Scope <strong>DOES NOT</strong> matter if the access token of the service account is obtained from the metadata service and used outside of the cluster</p></li>
+</ul>
+</div>
+<div class="section" id="connect-to-cluster">
+<h2>Connect to Cluster<a class="headerlink" href="#connect-to-cluster" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">cluster_type</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s1">&#39;Regional&#39;</span><span class="p">:</span>
+    <span class="o">!</span>gcloud container clusters get-credentials <span class="nv">$CLUSTER_NAME</span> --region <span class="nv">$CLUSTER_REGION</span> --project <span class="nv">$SRC_PROJECT</span>
+<span class="k">elif</span> <span class="n">cluster_type</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s1">&#39;Zonal&#39;</span><span class="p">:</span>
+    <span class="o">!</span>gcloud container clusters get-credentials <span class="nv">$CLUSTER_NAME</span> --zone <span class="nv">$CLUSTER_ZONE</span> --project <span class="nv">$SRC_PROJECT</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="get-pods-security-context">
+<h2>Get Pods’ Security Context<a class="headerlink" href="#get-pods-security-context" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">highlight_not_na</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;color:white; background-color:purple&#39;</span>
+
+<span class="o">!</span>kubectl get pods -A --output<span class="o">=</span>json &gt; pods_sc.json
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;./pods_sc.json&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">infile</span><span class="p">:</span>
+    <span class="n">pods_sc</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">infile</span><span class="p">)</span>
+<span class="n">pods_sc_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">json_normalize</span><span class="p">(</span><span class="n">pods_sc</span><span class="p">[</span><span class="s1">&#39;items&#39;</span><span class="p">],</span> <span class="n">max_level</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="n">desired_columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;metadata.name&#39;</span><span class="p">,</span> <span class="s1">&#39;metadata.namespace&#39;</span><span class="p">,</span> <span class="s1">&#39;spec.securityContext.runAsNonRoot&#39;</span><span class="p">,</span> <span class="s1">&#39;spec.securityContext.runAsGroup&#39;</span><span class="p">,</span> <span class="s1">&#39;spec.securityContext.runAsUser&#39;</span><span class="p">,</span> <span class="s1">&#39;spec.securityContext.seLinuxOptions&#39;</span><span class="p">]</span>
+<span class="n">columns</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">pods_sc_df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="o">&amp;</span> <span class="nb">set</span><span class="p">(</span><span class="n">desired_columns</span><span class="p">))</span>
+<span class="n">pods_sc_df_formatted</span> <span class="o">=</span> <span class="n">pods_sc_df</span><span class="p">[</span><span class="n">columns</span><span class="p">]</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;metadata.name&#39;</span><span class="p">:</span> <span class="s1">&#39;Pod Name&#39;</span><span class="p">,</span> 
+                     <span class="s1">&#39;metadata.namespace&#39;</span><span class="p">:</span> <span class="s1">&#39;Namespace&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;spec.securityContext.runAsNonRoot&#39;</span><span class="p">:</span> <span class="s1">&#39;runAsNonRoot&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;spec.securityContext.runAsGroup&#39;</span><span class="p">:</span> <span class="s1">&#39;runAsGroup&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;spec.securityContext.runAsUser&#39;</span><span class="p">:</span> <span class="s1">&#39;runAsUser&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;spec.securityContext.seLinuxOptions&#39;</span><span class="p">:</span> <span class="s1">&#39;seLinuxOptions&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">sort_index</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        
+<span class="n">unwanted_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Namespace&#39;</span><span class="p">,</span> <span class="s1">&#39;Pod Name&#39;</span><span class="p">]</span>
+<span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">pods_sc_df_formatted</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">unwanted_columns</span><span class="p">]</span>
+<span class="n">display</span><span class="p">(</span><span class="n">pods_sc_df_formatted</span>
+        <span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">thresh</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">precision</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">applymap</span><span class="p">(</span><span class="n">highlight_not_na</span><span class="p">,</span> <span class="n">subset</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">IndexSlice</span><span class="p">[:,</span> <span class="n">columns</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Due to the potential overwhelming output that the <code class="docutils literal notranslate"><span class="pre">kubectl</span></code> command could return, the output had been parsed to return only values that are not <code class="docutils literal notranslate"><span class="pre">NA</span></code>. Check against the following documentation to determine if these values are of concern.</p>
+<p><code class="docutils literal notranslate"><span class="pre">runAsNonRoot</span></code> - Indicates that the container must run as a <strong>non-root</strong> user</p>
+<p><code class="docutils literal notranslate"><span class="pre">runAsGroup</span></code></p>
+<ul class="simple">
+<li><p>GID to run the entrypoint of the container process</p></li>
+<li><p>Uses runtime default if unset</p></li>
+<li><p>Often set up in conjunction with volume mounts containing files that have the same ownership IDs</p></li>
+<li><p>In GKE, it is normal for <code class="docutils literal notranslate"><span class="pre">event-exporter-gke</span></code>, <code class="docutils literal notranslate"><span class="pre">konnectivity-agent</span></code> and <code class="docutils literal notranslate"><span class="pre">konnectivity-agent-autoscaler</span></code> to have <code class="docutils literal notranslate"><span class="pre">runAsGroup</span></code> value of <code class="docutils literal notranslate"><span class="pre">1000</span></code></p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">runAsUser</span></code></p>
+<ul class="simple">
+<li><p>UID to run the entrypoint of the container process</p></li>
+<li><p>Defaults to user specified in image metadata if unspecified</p></li>
+<li><p>Enables the viewing of environment variables or file descriptors of processes with the specified UID</p></li>
+<li><p>Often set up in conjunction with volume mounts containing files that have the same ownership IDs</p></li>
+<li><p>Check <code class="docutils literal notranslate"><span class="pre">/etc/passwd</span></code> of host/node to map uid to username</p></li>
+<li><p>In GKE, it is normal for <code class="docutils literal notranslate"><span class="pre">event-exporter-gke</span></code>, <code class="docutils literal notranslate"><span class="pre">konnectivity-agent</span></code> and <code class="docutils literal notranslate"><span class="pre">konnectivity-agent-autoscaler</span></code> to have <code class="docutils literal notranslate"><span class="pre">runAsUser</span></code> value of <code class="docutils literal notranslate"><span class="pre">1000</span></code></p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">seLinuxOptions</span></code></p>
+<ul class="simple">
+<li><p>SELinux is a policy driven system to control access to apps, processes and files on a Linux system</p></li>
+<li><p>Implements the Linux Security Modules framework in the Linux kernel</p></li>
+<li><p>Based on the concept of labels - it applies these labels to all the elements in the system which group elements together</p></li>
+<li><p>Labels are also known as the security context (not to be confused with the Kubernetes <code class="docutils literal notranslate"><span class="pre">securityContext</span></code>)</p></li>
+<li><p>Labels consist of a user, role, type, and an optional field level in the format <code class="docutils literal notranslate"><span class="pre">user:role:type:level</span></code></p></li>
+<li><p>SELinux then uses policies to define which processes of a particular context can access other labelled objects in the system</p></li>
+<li><p>SELinux can be strictly enforced, in which case access will be denied, or it can be configured in permissive mode where it will log access</p></li>
+<li><p>In containers, SELinux typically labels the container process and the container image in such a way as to restrict the process to only access files within the image</p></li>
+<li><p>Changing the SELinux labeling for a container could potentially allow the containerized process to escape the container image and access the host filesystem</p></li>
+</ul>
+</div>
+<div class="section" id="get-containers-security-context-precedence-over-pods">
+<h2>Get Containers’ Security Context (Precedence over Pods’)<a class="headerlink" href="#get-containers-security-context-precedence-over-pods" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">highlight_not_na</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;color:white; background-color:purple&#39;</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;./pods_sc.json&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">infile</span><span class="p">:</span>
+    <span class="n">ctrs_sc</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">infile</span><span class="p">)</span>
+
+<span class="n">frames</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">ctrs_sc</span><span class="p">[</span><span class="s1">&#39;items&#39;</span><span class="p">]:</span>
+    <span class="k">for</span> <span class="n">ctr</span> <span class="ow">in</span> <span class="n">item</span><span class="p">[</span><span class="s1">&#39;spec&#39;</span><span class="p">][</span><span class="s1">&#39;containers&#39;</span><span class="p">]:</span>
+        <span class="n">ctr_series</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="n">ctr_series</span><span class="p">[</span><span class="s1">&#39;Namespace&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s1">&#39;metadata&#39;</span><span class="p">][</span><span class="s1">&#39;namespace&#39;</span><span class="p">]</span>
+        <span class="n">ctr_series</span><span class="p">[</span><span class="s1">&#39;Pod Name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s1">&#39;metadata&#39;</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+        <span class="n">ctr_series</span><span class="p">[</span><span class="s1">&#39;Container Name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ctr</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;securityContext&#39;</span> <span class="ow">in</span> <span class="n">ctr</span><span class="p">:</span>
+            <span class="n">securityContext</span> <span class="o">=</span> <span class="n">ctr</span><span class="p">[</span><span class="s1">&#39;securityContext&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="s1">&#39;privileged&#39;</span> <span class="ow">in</span> <span class="n">securityContext</span><span class="p">:</span> <span class="n">ctr_series</span><span class="p">[</span><span class="s1">&#39;privileged&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">securityContext</span><span class="p">[</span><span class="s1">&#39;privileged&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="s1">&#39;allowPrivilegeEscalation&#39;</span> <span class="ow">in</span> <span class="n">securityContext</span><span class="p">:</span> <span class="n">ctr_series</span><span class="p">[</span><span class="s1">&#39;allowPrivilegeEscalation&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">securityContext</span><span class="p">[</span><span class="s1">&#39;allowPrivilegeEscalation&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="s1">&#39;capabilities&#39;</span> <span class="ow">in</span> <span class="n">securityContext</span><span class="p">:</span> <span class="n">ctr_series</span><span class="p">[</span><span class="s1">&#39;capabilities&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">securityContext</span><span class="p">[</span><span class="s1">&#39;capabilities&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="s1">&#39;procMount&#39;</span> <span class="ow">in</span> <span class="n">securityContext</span><span class="p">:</span> <span class="n">ctr_series</span><span class="p">[</span><span class="s1">&#39;procMount&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">securityContext</span><span class="p">[</span><span class="s1">&#39;procMount&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="s1">&#39;readOnlyRootFilesystem&#39;</span> <span class="ow">in</span> <span class="n">securityContext</span><span class="p">:</span> <span class="n">ctr_series</span><span class="p">[</span><span class="s1">&#39;readOnlyRootFilesystem&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">securityContext</span><span class="p">[</span><span class="s1">&#39;readOnlyRootFilesystem&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="s1">&#39;runAsGroup&#39;</span> <span class="ow">in</span> <span class="n">securityContext</span><span class="p">:</span> <span class="n">ctr_series</span><span class="p">[</span><span class="s1">&#39;runAsGroup&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">securityContext</span><span class="p">[</span><span class="s1">&#39;runAsGroup&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="s1">&#39;runAsNonRoot&#39;</span> <span class="ow">in</span> <span class="n">securityContext</span><span class="p">:</span> <span class="n">ctr_series</span><span class="p">[</span><span class="s1">&#39;runAsNonRoot&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">securityContext</span><span class="p">[</span><span class="s1">&#39;runAsNonRoot&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="s1">&#39;runAsUser&#39;</span> <span class="ow">in</span> <span class="n">securityContext</span><span class="p">:</span> <span class="n">ctr_series</span><span class="p">[</span><span class="s1">&#39;runAsUser&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">securityContext</span><span class="p">[</span><span class="s1">&#39;runAsUser&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="s1">&#39;seLinuxOptions&#39;</span> <span class="ow">in</span> <span class="n">securityContext</span><span class="p">:</span> <span class="n">ctr_series</span><span class="p">[</span><span class="s1">&#39;seLinuxOptions&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">securityContext</span><span class="p">[</span><span class="s1">&#39;seLinuxOptions&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="s1">&#39;windowsOptions&#39;</span> <span class="ow">in</span> <span class="n">securityContext</span><span class="p">:</span> <span class="n">ctr_series</span><span class="p">[</span><span class="s1">&#39;windowsOptions&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">securityContext</span><span class="p">[</span><span class="s1">&#39;windowsOptions&#39;</span><span class="p">]</span>   
+        <span class="n">ctr_series</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">ctr_series</span><span class="p">)</span>
+        <span class="n">frames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ctr_series</span><span class="p">)</span>
+<span class="n">ctrs_sc_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">frames</span><span class="p">)</span>
+
+<span class="n">unwanted_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Namespace&#39;</span><span class="p">,</span> <span class="s1">&#39;Pod Name&#39;</span><span class="p">,</span> <span class="s1">&#39;Container Name&#39;</span><span class="p">]</span>
+<span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">ctrs_sc_df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">unwanted_columns</span><span class="p">]</span>
+<span class="n">display</span><span class="p">(</span><span class="n">ctrs_sc_df</span>
+        <span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">thresh</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">precision</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">applymap</span><span class="p">(</span><span class="n">highlight_not_na</span><span class="p">,</span> <span class="n">subset</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">IndexSlice</span><span class="p">[:,</span> <span class="n">columns</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Due to the overwhelming output that the <code class="docutils literal notranslate"><span class="pre">kubectl</span></code> command could return, the output had been parsed to return only values that are not <code class="docutils literal notranslate"><span class="pre">NA</span></code>. Amongst the displayed output are pods in <code class="docutils literal notranslate"><span class="pre">kube-system</span></code> namespace which come with the GKE cluster by default and they can be ignored. For others, check against the following to determine if the values are of concern.</p>
+<p><code class="docutils literal notranslate"><span class="pre">privileged</span></code></p>
+<ul class="simple">
+<li><p>Runs container in privileged mode</p></li>
+<li><p>Processes in privileged containers are essentially equivalent to root on the node/host</p></li>
+<li><p>Provides access to <code class="docutils literal notranslate"><span class="pre">/dev</span></code> on the host, which enables the mounting of the node/host filesytem to the privileged pod</p>
+<ul>
+<li><p>But provides a limited view of the filesystem - files that require privilege escalation (e.g. to root) are not accessible</p></li>
+</ul>
+</li>
+<li><p>Enables multiple options to gaining RCE with root privileges on the node/host</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">allowPrivilegeEscalation</span></code></p>
+<ul class="simple">
+<li><p>Controls whether a process can gain more privileges than its parent process</p></li>
+<li><p>This bool directly controls if the <code class="docutils literal notranslate"><span class="pre">no_new_privs</span></code> flag will be set on the container process</p></li>
+<li><p>Always <code class="docutils literal notranslate"><span class="pre">true</span></code> when the container is: 1) run as <code class="docutils literal notranslate"><span class="pre">privileged</span></code> 2) has <code class="docutils literal notranslate"><span class="pre">CAP_SYS_ADMIN</span></code></p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">capabilities</span></code></p>
+<ul class="simple">
+<li><p>Kernel level permissions that allow for more granular controls over kernel call permissions than simply running as root</p></li>
+<li><p>Capabilities include things like the ability to change file permissions, control the network subsystem, and perform system-wide administration functions</p></li>
+<li><p>Can be configured to <code class="docutils literal notranslate"><span class="pre">drop</span></code> or <code class="docutils literal notranslate"><span class="pre">add</span></code> capabilities</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">procMount</span></code></p>
+<ul class="simple">
+<li><p>By default, container runtimes mask certain parts of the <code class="docutils literal notranslate"><span class="pre">/proc</span></code> filesystem from inside a container in order to prevent potential security issues</p></li>
+<li><p>However, there are times when access to those parts of <code class="docutils literal notranslate"><span class="pre">/proc</span></code> is required; particularly when using nested containers as is often used as part of an in-cluster build process</p></li>
+<li><p>There are only two valid options for this entry:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">Default</span></code>, which maintains the standard container runtime behavior, or</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Unmasked</span></code>, which removes all masking for the /proc filesystem.</p></li>
+</ul>
+</li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">readOnlyRootFilesystem</span></code></p>
+<ul class="simple">
+<li><p>Default is <code class="docutils literal notranslate"><span class="pre">false</span></code> (represented by <code class="docutils literal notranslate"><span class="pre">nan</span></code> in the output)</p></li>
+<li><p>If <code class="docutils literal notranslate"><span class="pre">true</span></code>, limits the actions that an attacker can perform on the container filesystem</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">windowsOptions</span></code></p>
+<ul class="simple">
+<li><p>Windows specific settings applied to all containers</p></li>
+</ul>
+</div>
+<div class="section" id="check-pods-hostpid-hostipc-hostnetwork-config">
+<h2>Check Pods’ <code class="docutils literal notranslate"><span class="pre">hostPID</span></code>, <code class="docutils literal notranslate"><span class="pre">hostIPC</span></code>, <code class="docutils literal notranslate"><span class="pre">hostNetwork</span></code> Config<a class="headerlink" href="#check-pods-hostpid-hostipc-hostnetwork-config" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>!kubectl get pods -A --field-selector=metadata.namespace!=kube-system \
+    -o custom-columns=Name:.metadata.name,Namespace:.metadata.namespace,HostPID:.spec.hostPID,HostIPC:.spec.hostIPC,HostNetwork:.spec.hostNetwork
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">hostPID</span></code></p>
+<ul class="simple">
+<li><p><strong>Unable</strong> to get privileged code execution on the host directly with only <code class="docutils literal notranslate"><span class="pre">hostPID:</span> <span class="pre">true</span></code></p></li>
+<li><p>If <code class="docutils literal notranslate"><span class="pre">true</span></code>, possible options for attacker</p>
+<ul>
+<li><p>View processes on host, including processes running in each pod</p></li>
+<li><p>View environment variables for each pod on the host (which may contain credentials)</p>
+<ul>
+<li><p>Applies only to processes running within pods that share the same UID as the <code class="docutils literal notranslate"><span class="pre">hostPID</span></code> pod</p></li>
+<li><p>To get the environment variables from processes that do not share the same UID, <code class="docutils literal notranslate"><span class="pre">hostPID</span></code> pod needs to run with the <code class="docutils literal notranslate"><span class="pre">runAsUser</span></code> set to the desired UID</p></li>
+</ul>
+</li>
+<li><p>View file descriptors for each pod on the host (which may contain credentials)</p>
+<ul>
+<li><p>Permissions about environment variables above applies here as well</p></li>
+</ul>
+</li>
+<li><p>Kill process on the node</p></li>
+</ul>
+</li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">hostIPC</span></code></p>
+<ul class="simple">
+<li><p><strong>Unable</strong> to get privileged code execution on the host directly with only <code class="docutils literal notranslate"><span class="pre">hostIPC:</span> <span class="pre">true</span></code></p></li>
+<li><p>If any process on the host or any processes in a pod uses the host’s inter-process communication mechanisms (shared memory, semaphore arrays, message queues, etc), these mechanisms can be read or written to</p></li>
+<li><p>If <code class="docutils literal notranslate"><span class="pre">true</span></code>, possible options for attacker</p>
+<ul>
+<li><p>Access data used by any pods that also use the host’s IPC namespace by inspecting <code class="docutils literal notranslate"><span class="pre">/dev/shm</span></code></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">/dev/shm</span></code> is shared between any pod with <code class="docutils literal notranslate"><span class="pre">hostIPC:</span> <span class="pre">true</span></code> and the host</p></li>
+<li><p>Look for any files in this shared memory location</p></li>
+</ul>
+</li>
+<li><p>Inspect existing IPC facilities - Check to see if any IPC facilities are being used with <code class="docutils literal notranslate"><span class="pre">/usr/bin/ipcs</span> <span class="pre">-a</span></code></p></li>
+</ul>
+</li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">hostNetwork</span></code></p>
+<ul class="simple">
+<li><p><strong>Unable</strong> to get privileged code execution on the host directly with only <code class="docutils literal notranslate"><span class="pre">hostNetwork:</span> <span class="pre">true</span></code></p></li>
+<li><p>If <code class="docutils literal notranslate"><span class="pre">true</span></code>, possible options for attacker</p>
+<ul>
+<li><p>Sniff traffic - Use tcpdump to sniff unencrypted traffic on any interface on the host</p></li>
+<li><p>Access services bound to localhost - Can reach services that only listen on the host’s loopback interface or that are otherwise blocked by network policies</p></li>
+<li><p>Bypass network policy - Pod would be bound to the host’s network interfaces and not the pods/namspaces’</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="check-pods-hostpath-config">
+<h2>Check Pods’ <code class="docutils literal notranslate"><span class="pre">hostpath</span></code> Config<a class="headerlink" href="#check-pods-hostpath-config" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>!kubectl get pods -A --field-selector=metadata.namespace!=kube-system \
+    -o custom-columns=Name:.metadata.name,Namespace:.metadata.namespace,HostPath:.spec.volumes[].hostPath
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>No results returned if there are no pods with <code class="docutils literal notranslate"><span class="pre">hostpath</span></code> configured</p></li>
+<li><p>If the administrator had not limited what can be mounted, the entire host’s filesystem can be mounted</p></li>
+<li><p>Provides read/write access on the host’s filesystem (limited to what the administrator defined)</p></li>
+<li><p>If configured, possible options for attacker</p>
+<ul>
+<li><p>Look for kubeconfig files on the host filesystem (may find a cluster-admin config with full access to everything)</p>
+<ul>
+<li><p><strong>Not applicable</strong> to GKE as GKE by default <strong>DOES NOT</strong> store kubeconfig files (i.e. <code class="docutils literal notranslate"><span class="pre">.kube/config</span></code>) on the node hosting the pod</p></li>
+</ul>
+</li>
+<li><p>Add persistence</p>
+<ul>
+<li><p>Add own SSH key</p></li>
+<li><p>Add own CRON job</p></li>
+</ul>
+</li>
+<li><p>Crack hashed passwords in <code class="docutils literal notranslate"><span class="pre">/etc/shadow</span></code></p></li>
+</ul>
+</li>
+<li><p>Mount point can be found with</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">describe</span> <span class="pre">pod</span> <span class="pre">hostpath-exec-pod</span> <span class="pre">|</span> <span class="pre">sed</span> <span class="pre">-ne</span> <span class="pre">'/Mounts/,/Conditions/p'</span></code></p></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./gke/playbook/analysis"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="mount_container_fs.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Mount Container Filesystem</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="../containment.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Containment</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Silv3rHorn<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../../../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

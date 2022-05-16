@@ -1,0 +1,1175 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Full Packet Capture (ipynb) &#8212; GCP IR Notes</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Access Tokens" href="../iam/access_tokens.html" />
+    <link rel="prev" title="Containment" href="../gke/playbook/containment.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">GCP IR Notes</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../index.html">
+   Welcome
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Administration
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../admin/svc_acct.html">
+   Service Account
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../admin/svc_acct/min_perm_target.html">
+     Minimal Role / Permissions for Target
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../admin/svc_acct/min_perm_analyst.html">
+     Minimal Role / Permissions for Analyst
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../admin/svc_acct/security_hardening.html">
+     Security Hardening
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../admin/vm_instances_for_ir.html">
+   VM Instances for IR
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../admin/gcloud_cli_kubectl_cs.html">
+   gcloud CLI &amp; kubectl Cheatsheet
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Google Compute Engine (GCE)
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../gce/create_4n6_disk_from_snapshot.html">
+   Create Disk Snapshot &amp; Forensic Disk (ipynb)
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Google Kubernetes Engine (GKE)
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../gke/bg.html">
+   Background
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../gke/bg/container_runtime.html">
+     Container Runtime
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../gke/bg/container_filesystem.html">
+     Container Filesystem
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../gke/playbook.html">
+   Playbook
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../gke/playbook/discover_cluster.html">
+     Discover Cluster (ipynb)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../gke/playbook/app_logs.html">
+     Application Logs
+    </a>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../gke/playbook/analysis.html">
+     Analysis
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+    <label for="toctree-checkbox-4">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../gke/playbook/analysis/live_response.html">
+       Live Response
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../gke/playbook/analysis/mount_container_fs.html">
+       Mount Container Filesystem
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../gke/playbook/analysis/determine_pod_escape.html">
+       Determine Pod Escape (ipynb)
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../gke/playbook/containment.html">
+     Containment
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Virtual Private Cloud (VPC)
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Full Packet Capture (ipynb)
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Identity &amp; Access Management (IAM)
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../iam/access_tokens.html">
+   Access Tokens
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../iam/restrict_ip.html">
+   Restrict Access by IP
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Log Explorer
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../log_explorer/query_language.html">
+   Query Language
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../log_explorer/log_review.html">
+   Log Review (ipynb)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../log_explorer/attacker_apis.html">
+   Attackers’ APIs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../log_explorer/create_alerts.html">
+   Create Alerts
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../log_explorer/detections.html">
+   Detections
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/vpc/packet_capture.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/Silv3rHorn/GCP-IR-Notes"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/Silv3rHorn/GCP-IR-Notes/issues/new?title=Issue%20on%20page%20%2Fvpc/packet_capture.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/Silv3rHorn/GCP-IR-Notes/master?urlpath=tree/vpc/packet_capture.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#install-dependencies">
+   Install Dependencies
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#imports-and-configuration">
+   Imports and Configuration
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#define-environment-variables">
+   Define Environment Variables
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#create-vpc-peering">
+   Create VPC Peering
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#setup-destination-collector">
+   Setup Destination Collector
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#create-firewall-rules">
+   Create Firewall Rules
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#implement-load-balancer">
+   Implement Load Balancer
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#implement-packet-mirroring">
+   Implement Packet Mirroring
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#capture-packets">
+   Capture Packets
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#cleanup">
+   Cleanup
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Full Packet Capture (ipynb)</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#install-dependencies">
+   Install Dependencies
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#imports-and-configuration">
+   Imports and Configuration
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#define-environment-variables">
+   Define Environment Variables
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#create-vpc-peering">
+   Create VPC Peering
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#setup-destination-collector">
+   Setup Destination Collector
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#create-firewall-rules">
+   Create Firewall Rules
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#implement-load-balancer">
+   Implement Load Balancer
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#implement-packet-mirroring">
+   Implement Packet Mirroring
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#capture-packets">
+   Capture Packets
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#cleanup">
+   Cleanup
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="full-packet-capture-ipynb">
+<h1>Full Packet Capture (ipynb)<a class="headerlink" href="#full-packet-capture-ipynb" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Steps below includes the implementation of necessary infrastructure (e.g. network, subnet, load balancer, compute instance(s), packet mirroring policy) at the analyst project to receive the captured packets.</p></li>
+<li><p>Also includes setting up the target resource(s) (e.g. tagging, firewall rules) where packets would be captured from</p></li>
+<li><p>Network traffic would be mirrored from target resource(s) to implemented infrastructure</p></li>
+<li><p>Actual packet capture to <code class="docutils literal notranslate"><span class="pre">pcap</span></code> file still requires SSH into receiving compute instance and performing <code class="docutils literal notranslate"><span class="pre">tcpdump</span></code></p></li>
+</ul>
+<p><strong>References</strong></p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://cloud.google.com/vpc/docs/packet-mirroring">Packet Mirroring Documentation</a></p></li>
+<li><p><a class="reference external" href="https://cloud.google.com/blog/products/networking/packet-mirroring-enables-better-network-monitoring-and-security">Setting up advanced network threat detection with Packet Mirroring</a></p></li>
+</ul>
+<div class="section" id="install-dependencies">
+<h2>Install Dependencies<a class="headerlink" href="#install-dependencies" title="Permalink to this headline">¶</a></h2>
+<p>Install the dependencies <code class="docutils literal notranslate"><span class="pre">ipywidgets</span></code> and <code class="docutils literal notranslate"><span class="pre">pandas</span></code>. Skip the next cell if they had already been installed.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip3 install ipywidgets pandas
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="imports-and-configuration">
+<h2>Imports and Configuration<a class="headerlink" href="#imports-and-configuration" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">ipywidgets</span> <span class="k">as</span> <span class="nn">widgets</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span><span class="p">,</span> <span class="n">display</span>
+
+<span class="c1"># extend width of widgets</span>
+<span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;&lt;style&gt;</span>
+<span class="s1">    .widget-label { min-width: 28ex !important; font-weight:bold; }</span>
+<span class="s1">&lt;/style&gt;&#39;&#39;&#39;</span><span class="p">))</span>
+
+<span class="c1"># extend width and max rows of pandas output</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_colwidth&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_rows&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># [OPTIONAL] authenticate using your service account</span>
+<span class="o">!</span>gcloud auth activate-service-account --key-file &lt;json_key_file&gt;
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="define-environment-variables">
+<h2>Define Environment Variables<a class="headerlink" href="#define-environment-variables" title="Permalink to this headline">¶</a></h2>
+<p><strong>Specify the following information</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Source</span> <span class="pre">Project</span></code> - Project id of target project (that contains potentially compromised compute instance)</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># create text boxes for user input</span>
+<span class="n">src_project</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Source Project: &quot;</span><span class="p">,</span> <span class="n">disabled</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s1">&#39;40%&#39;</span><span class="p">))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">src_project</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># store user input in environment variables for use in subsequent comamnds</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;SRC_PROJECT&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">src_project</span><span class="o">.</span><span class="n">value</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># get zone, network, ip of VMs of interest in target (src) project
+!gcloud compute instances list \
+    --project $SRC_PROJECT \
+    --format=&quot;table( \
+    name, \
+    zone.basename(), \
+    networkInterfaces[].network.basename(), \
+    networkInterfaces[].subnetwork.basename(), \
+    networkInterfaces[].networkIP, \
+    status)&quot;
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Specify the following information</strong></p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Fields</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Source (Target)</strong></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Source</span> <span class="pre">Region</span></code></p></td>
+<td><p>Region of the compute instance to capture packets from (e.g. <code class="docutils literal notranslate"><span class="pre">asia-southeast1</span></code>)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Source</span> <span class="pre">Zone</span></code></p></td>
+<td><p>Zone of the compute instance to capture packets from (e.g. <code class="docutils literal notranslate"><span class="pre">asia-southeast1-b</span></code>)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Source</span> <span class="pre">Network</span></code></p></td>
+<td><p>Name of network that contains the compute instance to capture packets from</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Source</span> <span class="pre">IP</span> <span class="pre">Range</span></code></p></td>
+<td><p>IP address range of network that contains the compute instance to capture packets from</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Source</span> <span class="pre">VM</span></code></p></td>
+<td><p>Name of compute instance to capture packets from</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Destination (Analyst)</strong></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Destination</span> <span class="pre">Project</span></code></p></td>
+<td><p>Project id of project where the compute instance to receive the packets would be created</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Destination</span> <span class="pre">Network</span></code></p></td>
+<td><p>Name of network where the compute instance to receive the packets would be created</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Destination</span> <span class="pre">Subnet</span></code></p></td>
+<td><p>Name of subnet where the compute instance to receive the packets would be created</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Destination</span> <span class="pre">Subnet</span> <span class="pre">Range</span></code></p></td>
+<td><p>Subnet range of above subnet</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Destination</span> <span class="pre">Instance</span> <span class="pre">Group</span></code></p></td>
+<td><p>Name of instance group where the compute instance to receive the packets would be created</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Destination</span> <span class="pre">VM</span></code></p></td>
+<td><p>Name of the created compute instance that would receive the packets</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Destination</span> <span class="pre">SSH</span> <span class="pre">IP</span></code></p></td>
+<td><p>IP address that would be used to SSH into the created compute instance that would receive the packets</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Network</strong></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Mirror</span> <span class="pre">Network</span> <span class="pre">Tag</span></code></p></td>
+<td><p>Name of tag to place on the compute instance to capture packets from</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">VPC</span> <span class="pre">Peering</span> <span class="pre">Name</span></code></p></td>
+<td><p>Name of VPC network peering connection between the target network and the analyst network</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">LB</span> <span class="pre">Health</span> <span class="pre">Check</span> <span class="pre">Name</span></code></p></td>
+<td><p>Name of health check (for load balancer which receives mirrored traffic)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">LB</span> <span class="pre">Backend</span> <span class="pre">Name</span></code></p></td>
+<td><p>Name of backend (for load balancer which receives mirrored traffic)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">LB</span> <span class="pre">Frontend</span> <span class="pre">Name</span></code></p></td>
+<td><p>Name of frontend (for load balancer which receives mirrored traffic)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Packet</span> <span class="pre">Mirroring</span> <span class="pre">Policy</span> <span class="pre">Name</span></code></p></td>
+<td><p>Name of packet mirroring policy</p></td>
+</tr>
+</tbody>
+</table>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># create text boxes for user input</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;====== SOURCE (TARGET)======&quot;</span><span class="p">)</span>
+<span class="n">src_region</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Source Region: &quot;</span><span class="p">,</span> <span class="n">disabled</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s1">&#39;40%&#39;</span><span class="p">))</span>
+<span class="n">src_zone</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Source Zone: &quot;</span><span class="p">,</span> <span class="n">disabled</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s1">&#39;40%&#39;</span><span class="p">))</span>
+<span class="n">src_network</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="s1">&#39;default&#39;</span><span class="p">,</span> <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Source Network: &quot;</span><span class="p">,</span> <span class="n">disabled</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s1">&#39;40%&#39;</span><span class="p">))</span>
+<span class="n">src_ip_range</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Source IP Range: &quot;</span><span class="p">,</span> <span class="n">disabled</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s1">&#39;40%&#39;</span><span class="p">))</span>
+<span class="n">src_vm</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Source VM: &quot;</span><span class="p">,</span> <span class="n">disabled</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s1">&#39;40%&#39;</span><span class="p">))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">src_region</span><span class="p">,</span> <span class="n">src_zone</span><span class="p">,</span> <span class="n">src_network</span><span class="p">,</span> <span class="n">src_ip_range</span><span class="p">,</span> <span class="n">src_vm</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;====== DESTINATION (ANALYST)======&quot;</span><span class="p">)</span>
+<span class="n">dst_project</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Destination Project: &quot;</span><span class="p">,</span> <span class="n">disabled</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s1">&#39;40%&#39;</span><span class="p">))</span>
+<span class="n">dst_network</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="s1">&#39;pc-network&#39;</span><span class="p">,</span> <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Destination Network: &quot;</span><span class="p">,</span> <span class="n">disabled</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s1">&#39;40%&#39;</span><span class="p">))</span>
+<span class="n">dst_subnet</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="s1">&#39;pc-subnet&#39;</span><span class="p">,</span> <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Destination Subnet: &quot;</span><span class="p">,</span> <span class="n">disabled</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s1">&#39;40%&#39;</span><span class="p">))</span>
+<span class="n">dst_subnet_range</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="s1">&#39;10.1.2.0/24&#39;</span><span class="p">,</span> <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Destination Subnet Range: &quot;</span><span class="p">,</span> <span class="n">disabled</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s1">&#39;40%&#39;</span><span class="p">))</span>
+<span class="n">dst_instance_grp</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="s1">&#39;pc-grp&#39;</span><span class="p">,</span> <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Destination Instance Grp: &quot;</span><span class="p">,</span> <span class="n">disabled</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s1">&#39;40%&#39;</span><span class="p">))</span>
+<span class="n">dst_vm</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="s1">&#39;pc-vm-1&#39;</span><span class="p">,</span> <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Destination VM: &quot;</span><span class="p">,</span> <span class="n">disabled</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s1">&#39;40%&#39;</span><span class="p">))</span>
+<span class="n">dst_ssh_ip</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Destination SSH IP: &quot;</span><span class="p">,</span> <span class="n">disabled</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s1">&#39;40%&#39;</span><span class="p">))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">dst_project</span><span class="p">,</span> <span class="n">dst_network</span><span class="p">,</span> <span class="n">dst_subnet</span><span class="p">,</span> <span class="n">dst_subnet_range</span><span class="p">,</span> <span class="n">dst_instance_grp</span><span class="p">,</span> <span class="n">dst_vm</span><span class="p">,</span> <span class="n">dst_ssh_ip</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s1">&#39;40%&#39;</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;====== NETWORK ======&quot;</span><span class="p">)</span>
+<span class="n">mirror_network_tag</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="s1">&#39;pc-tag&#39;</span><span class="p">,</span> <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Mirror Network Tag: &quot;</span><span class="p">,</span> <span class="n">disabled</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s1">&#39;40%&#39;</span><span class="p">))</span>
+<span class="n">peering_name</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="s1">&#39;pc-peering&#39;</span><span class="p">,</span> <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;VPC Peering Name: &quot;</span><span class="p">,</span> <span class="n">disabled</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s1">&#39;40%&#39;</span><span class="p">))</span>
+<span class="n">lb_hc_name</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="s1">&#39;pc-hc-ilb&#39;</span><span class="p">,</span> <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;LB Health Check Name: &quot;</span><span class="p">,</span> <span class="n">disabled</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s1">&#39;40%&#39;</span><span class="p">))</span>
+<span class="n">lb_be_name</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="s1">&#39;pc-be-ilb&#39;</span><span class="p">,</span> <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;LB Backend Name: &quot;</span><span class="p">,</span> <span class="n">disabled</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s1">&#39;40%&#39;</span><span class="p">))</span>
+<span class="n">lb_fe_name</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="s1">&#39;pc-fe-ilb&#39;</span><span class="p">,</span> <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;LB Frontend Name: &quot;</span><span class="p">,</span> <span class="n">disabled</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s1">&#39;40%&#39;</span><span class="p">))</span>
+<span class="n">pm_policy_name</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="s1">&#39;pc-pmp&#39;</span><span class="p">,</span> <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Packet Mirroring Policy Name: &quot;</span><span class="p">,</span> <span class="n">disabled</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s1">&#39;40%&#39;</span><span class="p">))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">mirror_network_tag</span><span class="p">,</span> <span class="n">peering_name</span><span class="p">,</span> <span class="n">lb_hc_name</span><span class="p">,</span> <span class="n">lb_be_name</span><span class="p">,</span> <span class="n">lb_fe_name</span><span class="p">,</span> <span class="n">pm_policy_name</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># store user input in environment variables for use in subsequent comamnds</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;SRC_REGION&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">src_region</span><span class="o">.</span><span class="n">value</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;SRC_ZONE&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">src_zone</span><span class="o">.</span><span class="n">value</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;SRC_NETWORK&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">src_network</span><span class="o">.</span><span class="n">value</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;SRC_IP_RANGE&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">src_ip_range</span><span class="o">.</span><span class="n">value</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;SRC_VM&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">src_vm</span><span class="o">.</span><span class="n">value</span>
+
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;DST_PROJECT&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dst_project</span><span class="o">.</span><span class="n">value</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;DST_NETWORK&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dst_network</span><span class="o">.</span><span class="n">value</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;DST_SUBNET&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dst_subnet</span><span class="o">.</span><span class="n">value</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;DST_SUBNET_RANGE&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dst_subnet_range</span><span class="o">.</span><span class="n">value</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;DST_INSTANCE_GRP&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dst_instance_grp</span><span class="o">.</span><span class="n">value</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;DST_SSH_IP&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dst_ssh_ip</span><span class="o">.</span><span class="n">value</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;DST_VM&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dst_vm</span><span class="o">.</span><span class="n">value</span>
+
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;NETWORK_TAG&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mirror_network_tag</span><span class="o">.</span><span class="n">value</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;PEERING_NAME&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">peering_name</span><span class="o">.</span><span class="n">value</span>
+
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;FW_LB_RULE_NAME&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dst_network</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="s1">&#39;allow-lb-access&#39;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;FW_HC_RULE_NAME&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dst_network</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="s1">&#39;allow-health-check&#39;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;FW_SSH_RULE_NAME&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dst_network</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="s1">&#39;allow-ssh&#39;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;FW_EGRESS_RULE_NAME&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">src_network</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="s1">&#39;allow-all-egress&#39;</span>
+
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;LB_HC_NAME&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lb_hc_name</span><span class="o">.</span><span class="n">value</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;LB_BE_NAME&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lb_be_name</span><span class="o">.</span><span class="n">value</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;LB_FE_NAME&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lb_fe_name</span><span class="o">.</span><span class="n">value</span>
+
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;PM_POLICY_NAME&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pm_policy_name</span><span class="o">.</span><span class="n">value</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="create-vpc-peering">
+<h2>Create VPC Peering<a class="headerlink" href="#create-vpc-peering" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># create VPC network at analyst (dst) project
+!gcloud compute networks create $DST_NETWORK \
+    --project $DST_PROJECT \
+    --subnet-mode=custom
+
+print()
+
+# create subnet in created VPC network at analyst (dst) project
+!gcloud compute networks subnets create $DST_SUBNET \
+    --project $DST_PROJECT \
+    --network=$DST_NETWORK \
+    --range=$DST_SUBNET_RANGE \
+    --region=$SRC_REGION
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># create VPC network peering connection from analyst (dst) project/network to target (src) project/network
+!gcloud compute networks peerings create $PEERING_NAME \
+    --project $DST_PROJECT \
+    --network=$DST_NETWORK \
+    --peer-project $SRC_PROJECT  \
+    --peer-network $SRC_NETWORK
+
+print()
+
+# create VPC network peering connection from target (src) project/network to analyst (dst) project/network
+!gcloud compute networks peerings create $PEERING_NAME \
+    --project $SRC_PROJECT \
+    --network=$SRC_NETWORK \
+    --peer-project $DST_PROJECT  \
+    --peer-network $DST_NETWORK
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="setup-destination-collector">
+<h2>Setup Destination Collector<a class="headerlink" href="#setup-destination-collector" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># create VM instance group at analyst (dst) project
+!gcloud compute instance-groups unmanaged create $DST_INSTANCE_GRP \
+    --project $DST_PROJECT \
+    --zone $SRC_ZONE
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># following actions are performed at analyst (dst) project
+
+# create VM instance for collection (modify as required)
+!gcloud compute instances create $DST_VM \
+    --project $DST_PROJECT \
+    --zone $SRC_ZONE \
+    --machine-type=e2-highmem-4 \
+    --subnet=$DST_SUBNET \
+    --tags=allow-ssh,allow-health-check \
+    --create-disk=auto-delete=yes,boot=yes,device-name=$DST_VM,image-family=debian-10,image-project=debian-cloud,mode=rw,size=60,type=pd-ssd
+
+print()
+
+# add VM instance(s) to instance group
+!gcloud compute instance-groups unmanaged add-instances $DST_INSTANCE_GRP \
+    --project $DST_PROJECT \
+    --zone=$SRC_ZONE \
+    --instances=$DST_VM
+
+# duplicate as required
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="create-firewall-rules">
+<h2>Create Firewall Rules<a class="headerlink" href="#create-firewall-rules" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># create firewall rules at analyst (dst) project
+
+# allow all ingress traffic from target (src) project/network/VM
+!gcloud compute firewall-rules create $FW_LB_RULE_NAME \
+    --project $DST_PROJECT \
+    --network=$DST_NETWORK \
+    --action=allow \
+    --direction=ingress \
+    --source-ranges=$SRC_IP_RANGE \
+    --rules=tcp,udp,icmp
+
+print()
+
+# allow all ingress traffic from health check IPs
+!gcloud compute firewall-rules create $FW_HC_RULE_NAME \
+    --project $DST_PROJECT \
+    --network=$DST_NETWORK \
+    --action=allow \
+    --direction=ingress \
+    --target-tags=allow-health-check \
+    --source-ranges=130.211.0.0/22,35.191.0.0/16 \
+    --rules=tcp,udp,icmp
+
+print()
+
+# allow all ingress SSH traffic from specified IPs
+!gcloud compute firewall-rules create $FW_SSH_RULE_NAME \
+    --project $DST_PROJECT \
+    --network=$DST_NETWORK \
+    --action=allow \
+    --direction=ingress \
+    --target-tags=allow-ssh \
+    --source-ranges=$DST_SSH_IP  \
+    --rules=tcp,udp,icmp
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># list egress firewall rules at target (src) project
+!gcloud compute firewall-rules list \
+    --project $SRC_PROJECT \
+    --format=&#39;json&#39; &gt; src_fw_rules.json
+
+with open(&#39;./src_fw_rules.json&#39;) as infile:
+    src_fw_rules_df = pd.json_normalize(json.load(infile))
+
+desired_columns = [&#39;name&#39;, &#39;network&#39;, &#39;priority&#39;, &#39;direction&#39;, &#39;targetTags&#39;, &#39;destinationRanges&#39;, &#39;denied&#39;, &#39;allowed&#39;]
+columns = list(set(src_fw_rules_df.columns) &amp; set(desired_columns))
+
+display(src_fw_rules_df[columns]
+        .loc[src_fw_rules_df[&#39;direction&#39;] == &#39;EGRESS&#39;]
+        .loc[src_fw_rules_df[&#39;network&#39;].str.contains(src_network.value)])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># [optional] create allow all egress firewall rule at target (src) project
+!gcloud compute firewall-rules create $FW_EGRESS_RULE_NAME \
+    --project $SRC_PROJECT \
+    --network=$SRC_NETWORK \
+    --action=allow \
+    --direction=egress \
+    --target-tags=$NETWORK_TAG \
+    --destination-ranges=0.0.0.0/0 \
+    --rules=tcp,udp,icmp
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="implement-load-balancer">
+<h2>Implement Load Balancer<a class="headerlink" href="#implement-load-balancer" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># create a new regional HTTP health-check at analyst (dst) project
+!gcloud compute health-checks create http $LB_HC_NAME \
+    --project $DST_PROJECT \
+    --region=$SRC_REGION \
+    --port=80
+
+print()
+
+# create backend service at analyst (dst) project
+!gcloud compute backend-services create $LB_BE_NAME \
+    --project $DST_PROJECT \
+    --load-balancing-scheme=internal \
+    --protocol=tcp \
+    --region=$SRC_REGION \
+    --health-checks=$LB_HC_NAME \
+    --health-checks-region=$SRC_REGION
+
+print()
+
+# add instance group to backend service at analyst (dst) project
+!gcloud compute backend-services add-backend $LB_BE_NAME \
+    --project $DST_PROJECT \
+    --region=$SRC_REGION \
+    --instance-group=$DST_INSTANCE_GRP \
+    --instance-group-zone=$SRC_ZONE
+
+print()
+
+# create forwarding rule at analyst (dst) project
+!gcloud compute forwarding-rules create $LB_FE_NAME \
+    --project $DST_PROJECT \
+    --region=$SRC_REGION \
+    --load-balancing-scheme=internal \
+    --backend-service=$LB_BE_NAME \
+    --ports=all \
+    --is-mirroring-collector \
+    --network=$DST_NETWORK \
+    --subnet=$DST_SUBNET
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="implement-packet-mirroring">
+<h2>Implement Packet Mirroring<a class="headerlink" href="#implement-packet-mirroring" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># tag vm to capture packets from at target (src) project
+!gcloud compute instances add-tags $SRC_VM \
+    --project $SRC_PROJECT \
+    --zone $SRC_ZONE \
+    --tags $NETWORK_TAG
+
+# duplicate as required
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># create packet mirroring policy at analyst (dst) project
+!gcloud compute packet-mirrorings create $PM_POLICY_NAME \
+    --project $DST_PROJECT \
+    --region=$SRC_REGION \
+    --network=projects/$SRC_PROJECT/global/networks/$SRC_NETWORK \
+    --mirrored-tags=$NETWORK_TAG \
+    --collector-ilb=$LB_FE_NAME
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="capture-packets">
+<h2>Capture Packets<a class="headerlink" href="#capture-packets" title="Permalink to this headline">¶</a></h2>
+<ol class="simple">
+<li><p>SSH into <code class="docutils literal notranslate"><span class="pre">$DST_VM</span></code> - <code class="docutils literal notranslate"><span class="pre">gcloud</span> <span class="pre">compute</span> <span class="pre">ssh</span> <span class="pre">$DST_VM</span> <span class="pre">-project</span> <span class="pre">$DST_PROJECT</span> <span class="pre">-zone</span> <span class="pre">$SRC_ZONE</span></code></p></li>
+<li><p>Install tcpdump - <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">update</span></code>, <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">apt</span> <span class="pre">install</span> <span class="pre">tcpdump</span> <span class="pre">-y</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">/usr/sbin/tcpdump</span> <span class="pre">port</span> <span class="pre">not</span> <span class="pre">22</span> <span class="pre">-w</span> <span class="pre">pc.pcap</span></code></p></li>
+</ol>
+</div>
+<div class="section" id="cleanup">
+<h2>Cleanup<a class="headerlink" href="#cleanup" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># at target (src) project
+
+# delete firewall rule
+!gcloud compute firewall-rules delete $FW_EGRESS_RULE_NAME --project $SRC_PROJECT --quiet
+
+print()
+
+# delete VPC peering
+!gcloud compute networks peerings delete $PEERING_NAME \
+    --project $SRC_PROJECT \
+    --network=$SRC_NETWORK
+
+print()
+
+# remove tag from VM
+!gcloud compute instances remove-tags $SRC_VM \
+    --project $SRC_PROJECT \
+    --zone $SRC_ZONE \
+    --tags $NETWORK_TAG
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># at analyst (dst) project
+
+# delete packet mirroring policy
+!gcloud compute packet-mirrorings delete $PM_POLICY_NAME --quiet \
+    --project $DST_PROJECT \
+    --region=$SRC_REGION
+
+print()
+
+# delete LB forwarding rule
+!gcloud compute forwarding-rules delete $LB_FE_NAME --quiet \
+    --project $DST_PROJECT \
+    --region=$SRC_REGION
+
+print()
+
+# delete LB backend service
+!gcloud compute backend-services delete $LB_BE_NAME --quiet \
+    --project $DST_PROJECT \
+    --region=$SRC_REGION
+
+print()
+
+# delete LB health check
+!gcloud compute health-checks delete $LB_HC_NAME --quiet \
+    --project $DST_PROJECT \
+    --region=$SRC_REGION
+
+print()
+
+# delete firewall rules
+!gcloud compute firewall-rules delete $FW_HC_RULE_NAME --project $DST_PROJECT --quiet
+print()
+!gcloud compute firewall-rules delete $FW_LB_RULE_NAME --project $DST_PROJECT --quiet
+print()
+!gcloud compute firewall-rules delete $FW_SSH_RULE_NAME --project $DST_PROJECT --quiet
+print()
+
+# delete VM(s)
+!gcloud compute instances delete $DST_VM --quiet \
+    --project $DST_PROJECT \
+    --zone $SRC_ZONE
+
+print()
+
+# delete VM instance group
+!gcloud compute instance-groups unmanaged delete $DST_INSTANCE_GRP --quiet \
+    --project $DST_PROJECT \
+    --zone $SRC_ZONE
+
+print()
+
+# delete subnet
+!gcloud compute networks subnets delete $DST_SUBNET --quiet \
+    --project $DST_PROJECT \
+    --region $SRC_REGION
+
+print()
+
+# delete network
+!gcloud compute networks delete $DST_NETWORK --project $DST_PROJECT --quiet
+
+print()
+
+# remove files
+!rm ./src_fw_rules.json
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./vpc"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="../gke/playbook/containment.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Containment</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="../iam/access_tokens.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Access Tokens</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Silv3rHorn<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>
