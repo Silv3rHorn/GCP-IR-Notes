@@ -1,6 +1,6 @@
 # Welcome
 
-This is a small Jupyter Book to document some of the Google Cloud Platform (GCP) Incident Response (IR) research I had done over the past 1.5 years while working in a "GCP-shop" company.
+This is a small Jupyter Book to document some of the Google Cloud Platform (GCP) Incident Response (IR) research I had done over the past 1.5 years.
 
 This documentation is **NOT** meant to be a complete guide to performing IR for GCP, and only includes material that I had **NOT** come across in the courses that I have attended.
 
