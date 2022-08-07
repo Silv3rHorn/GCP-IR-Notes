@@ -1,6 +1,6 @@
 # Attackers' APIs
 
-````{error}
+```{admonition} Update
 Expel had [released a mindmap](https://twitter.com/jhencinski/status/1555596252968112134) for detection and investigation in GCP. This page was create prior to its release, so pls refer to that instead.
 ````
 
