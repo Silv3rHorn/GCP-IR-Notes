@@ -30,7 +30,14 @@ This can only be used if Network Policy is enabled for the cluster (disabled by 
 ```
 
 * A deny all traffic rule may help stop an attack that is already underway by severing all connections to the pod
-* The following Network Policy, when implemented, will apply to all pods with the label `app=nginx`
+```
+# remove all labels that bind the affected pod with the deployment (repeat for each label)
+kubectl label pod <pod_name> <label_key>-
+
+# label the affected pod
+kubecetl label pods <pod_name> quarantine=true
+```
+* The following Network Policy, when implemented, will apply to all pods with the label `quarantine=true`
 ```yaml
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -39,7 +46,7 @@ metadata:
 spec:
     podSelector:
         matchLabels: 
-            app: nginx
+            quarantine: true
     policyTypes:
     - Ingress
     - Egress 

@@ -539,11 +539,15 @@ docker <span class="nb">exec</span> -it &lt;container-id&gt; date
 <span class="c1"># get storage location of container</span>
 docker inspect &lt;container-id&gt; <span class="p">|</span>  grep -i GraphDriver -A8
 
+<span class="c1"># get cpu, memory, disk usage of container</span>
+docker stats &lt;container-id&gt;
+
 <span class="c1"># get running processes of container</span>
 docker top &lt;container-id&gt; -eo user,pid,ppid,stime,command
 
 <span class="c1"># get changes to files or directories on a container&#39;s filesystem</span>
 docker diff &lt;container-id&gt;
+<span class="c1"># C lines are the changed directories, while A lines are the appended/added files</span>
 
 <span class="c1"># get bash history</span>
 docker <span class="nb">exec</span> -it &lt;container-id&gt; find / -iname <span class="s1">&#39;.bash_history&#39;</span>

@@ -521,7 +521,16 @@ kubectl drain &lt;node_name&gt; --pod-selector<span class="o">=</span><span clas
 </div>
 <ul class="simple">
 <li><p>A deny all traffic rule may help stop an attack that is already underway by severing all connections to the pod</p></li>
-<li><p>The following Network Policy, when implemented, will apply to all pods with the label <code class="docutils literal notranslate"><span class="pre">app=nginx</span></code></p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># remove all labels that bind the affected pod with the deployment (repeat for each label)</span>
+<span class="n">kubectl</span> <span class="n">label</span> <span class="n">pod</span> <span class="o">&lt;</span><span class="n">pod_name</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">label_key</span><span class="o">&gt;-</span>
+
+<span class="c1"># label the affected pod</span>
+<span class="n">kubecetl</span> <span class="n">label</span> <span class="n">pods</span> <span class="o">&lt;</span><span class="n">pod_name</span><span class="o">&gt;</span> <span class="n">quarantine</span><span class="o">=</span><span class="n">true</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>The following Network Policy, when implemented, will apply to all pods with the label <code class="docutils literal notranslate"><span class="pre">quarantine=true</span></code></p></li>
 </ul>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">networking.k8s.io/v1</span><span class="w"></span>
 <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NetworkPolicy</span><span class="w"></span>
@@ -530,7 +539,7 @@ kubectl drain &lt;node_name&gt; --pod-selector<span class="o">=</span><span clas
 <span class="nt">spec</span><span class="p">:</span><span class="w"></span>
 <span class="w">    </span><span class="nt">podSelector</span><span class="p">:</span><span class="w"></span>
 <span class="w">        </span><span class="nt">matchLabels</span><span class="p">:</span><span class="w"> </span>
-<span class="w">            </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span><span class="w"></span>
+<span class="w">            </span><span class="nt">quarantine</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
 <span class="w">    </span><span class="nt">policyTypes</span><span class="p">:</span><span class="w"></span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Ingress</span><span class="w"></span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Egress</span><span class="w"> </span>
