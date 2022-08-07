@@ -80,11 +80,15 @@ docker exec -it <container-id> date
 # get storage location of container
 docker inspect <container-id> |  grep -i GraphDriver -A8
 
+# get cpu, memory, disk usage of container
+docker stats <container-id>
+
 # get running processes of container
 docker top <container-id> -eo user,pid,ppid,stime,command
 
 # get changes to files or directories on a container's filesystem
 docker diff <container-id>
+# C lines are the changed directories, while A lines are the appended/added files
 
 # get bash history
 docker exec -it <container-id> find / -iname '.bash_history'
