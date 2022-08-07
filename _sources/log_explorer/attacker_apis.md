@@ -1,5 +1,9 @@
 # Attackers' APIs
 
+````{error}
+Expel had [released a mindmap](https://twitter.com/jhencinski/status/1555596252968112134) for detection and investigation in GCP. This page was create prior to its release, so pls refer to that instead.
+````
+
 * This is an attempt to list corresponding GCP method names of APIs specified in [AWS mindmap by Expel](https://twitter.com/jhencinski/status/1328714145848549376/photo/1)
 * How to use for searches in GCP Log Explorer
     * `resource.type="<value in GCP Equiv resource.type>"`
