@@ -1,0 +1,31 @@
+name: build-and-publish
+
+on:
+  push:
+    tags:
+      - 'release-v*'
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install -r requirements.txt
+    
+      - name: Build the Book
+        run: |
+          jupyter-book build .
+
+      - name: Publish GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3.9.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./_build/html
