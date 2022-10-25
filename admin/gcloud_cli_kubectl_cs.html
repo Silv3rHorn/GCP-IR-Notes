@@ -4,11 +4,13 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>gcloud CLI &amp; kubectl Cheatsheet &#8212; GCP IR Notes</title>
     
-  <link href="../_static/css/theme.css" rel="stylesheet">
-  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -18,20 +20,16 @@
   <link rel="preload" as="font" type="font/woff2" crossorigin
     href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
-    
-      
-
-    
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     
-  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -39,12 +37,13 @@
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../_static/togglebutton.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script src="../_static/design-tabs.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
@@ -62,7 +61,21 @@ const thebe_selector_output = ".output, .cell_output"
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
     
     <div class="container-fluid" id="banner"></div>
 
@@ -71,9 +84,10 @@ const thebe_selector_output = ".output, .cell_output"
     <div class="container-xl">
       <div class="row">
           
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    
-        <div class="navbar-brand-box">
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
     <a class="navbar-brand text-wrap" href="../index.html">
       
         <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
@@ -91,14 +105,15 @@ const thebe_selector_output = ".output, .cell_output"
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
-        <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../index.html">
-   Welcome
-  </a>
- </li>
-</ul>
-<p aria-level="2" class="caption" role="heading">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../index.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Administration
  </span>
@@ -300,90 +315,180 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 
     </div>
-</nav> <!-- To handle the deprecated key -->
-
-<div class="navbar_extra_footer">
-  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-</div>
-
-</div>
-
-
-          
-
-
-          
-<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
-    
-    <div class="topbar container-xl fixed-top">
-    <div class="topbar-contents row">
-        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
-        <div class="col pl-md-4 topbar-main">
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
             
-            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-                <i class="fas fa-bars"></i>
-                <i class="fas fa-arrow-left"></i>
-                <i class="fas fa-arrow-up"></i>
-            </button>
-            
-            
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
-            class="fas fa-download"></i></button>
-
-    <div class="dropdown-buttons">
-        <!-- ipynb file if we had a myst markdown file -->
-        
-        <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/admin/gcloud_cli_kubectl_cs.md"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.md</button></a>
-        <!-- Download PDF via print -->
-        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
-    </div>
-</div>
-
-            <!-- Source interaction buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
-    <div class="dropdown-buttons sourcebuttons">
-        <a class="repository-button"
-            href="https://github.com/Silv3rHorn/GCP-IR-Notes"><button type="button" class="btn btn-secondary topbarbtn"
-                data-toggle="tooltip" data-placement="left" title="Source repository"><i
-                    class="fab fa-github"></i>repository</button></a>
-        <a class="issues-button"
-            href="https://github.com/Silv3rHorn/GCP-IR-Notes/issues/new?title=Issue%20on%20page%20%2Fadmin/gcloud_cli_kubectl_cs.html&body=Your%20issue%20content%20here."><button
-                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
-                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        
-    </div>
-</div>
-
-            <!-- Full screen (wrap in <a> to have style consistency -->
-
-<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-        title="Fullscreen mode"><i
-            class="fas fa-expand"></i></button></a>
-
-            <!-- Launch buttons -->
-
-        </div>
-
-        <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
-            
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
             </div>
-            <nav id="bd-toc-nav" aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/Silv3rHorn/GCP-IR-Notes"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/Silv3rHorn/GCP-IR-Notes/issues/new?title=Issue%20on%20page%20%2Fadmin/gcloud_cli_kubectl_cs.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/admin/gcloud_cli_kubectl_cs.md"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.md</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#setting-up">
    Setting Up
@@ -927,12 +1032,11 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
 </ul>
 
-            </nav>
-        </div>
-    </div>
+    </nav>
 </div>
-    <div id="main-content" class="row">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
                 <h1>gcloud CLI & kubectl Cheatsheet</h1>
@@ -1492,11 +1596,12 @@ const thebe_selector_output = ".output, .cell_output"
                     </div>
                 </div>
             </div>
-            
+            <main id="main-content" role="main">
+                
               <div>
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="gcloud-cli-kubectl-cheatsheet">
-<h1>gcloud CLI &amp; kubectl Cheatsheet<a class="headerlink" href="#gcloud-cli-kubectl-cheatsheet" title="Permalink to this headline">¶</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="gcloud-cli-kubectl-cheatsheet">
+<h1>gcloud CLI &amp; kubectl Cheatsheet<a class="headerlink" href="#gcloud-cli-kubectl-cheatsheet" title="Permalink to this headline">#</a></h1>
 <div class="admonition-assumption admonition">
 <p class="admonition-title">Assumption</p>
 <p>Default project is assumed to have been <a class="reference external" href="#defaults-set">configured</a> for gcloud CLI. Hence, <code class="docutils literal notranslate"><span class="pre">--project</span></code> option is not specified in most of the listed commands.</p>
@@ -1505,18 +1610,18 @@ const thebe_selector_output = ".output, .cell_output"
 <p class="admonition-title">Warning</p>
 <p>Permissions required for each listed command had been provided on a best effort basis. There are some commands with only the required <strong>write</strong> permissions provided and had been indicated as such.</p>
 </div>
-<div class="section" id="setting-up">
-<h2>Setting Up<a class="headerlink" href="#setting-up" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="install-components">
-<h3>Install Components<a class="headerlink" href="#install-components" title="Permalink to this headline">¶</a></h3>
+<section id="setting-up">
+<h2>Setting Up<a class="headerlink" href="#setting-up" title="Permalink to this headline">#</a></h2>
+<section id="install-components">
+<h3>Install Components<a class="headerlink" href="#install-components" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/components/install">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># install kubectl</span>
 <span class="n">gcloud</span> <span class="n">components</span> <span class="n">install</span> <span class="n">kubectl</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="configuration-profile">
-<h3>Configuration Profile<a class="headerlink" href="#configuration-profile" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="configuration-profile">
+<h3>Configuration Profile<a class="headerlink" href="#configuration-profile" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/config/configurations">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># list profiles</span>
 <span class="n">gcloud</span> <span class="n">config</span> <span class="n">configurations</span> <span class="nb">list</span>
@@ -1531,9 +1636,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">gcloud</span> <span class="n">config</span> <span class="n">configurations</span> <span class="n">activate</span> <span class="o">&lt;</span><span class="n">profile_name</span><span class="o">&gt;</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="authenticate">
-<h3>Authenticate<a class="headerlink" href="#authenticate" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="authenticate">
+<h3>Authenticate<a class="headerlink" href="#authenticate" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/auth">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># authenticate as service account</span>
 <span class="n">gcloud</span> <span class="n">auth</span> <span class="n">activate</span><span class="o">-</span><span class="n">service</span><span class="o">-</span><span class="n">account</span> <span class="o">--</span><span class="n">key</span><span class="o">-</span><span class="n">file</span> <span class="o">&lt;</span><span class="n">json_key_file</span><span class="o">&gt;</span>
@@ -1542,9 +1647,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">gcloud</span> <span class="n">auth</span> <span class="n">login</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="defaults-set">
-<h3>Defaults - Set<a class="headerlink" href="#defaults-set" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="defaults-set">
+<h3>Defaults - Set<a class="headerlink" href="#defaults-set" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/config/set">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># set default project</span>
 <span class="n">gcloud</span> <span class="n">config</span> <span class="nb">set</span> <span class="n">core</span><span class="o">/</span><span class="n">project</span> <span class="o">&lt;</span><span class="n">project_name</span><span class="o">&gt;</span>
@@ -1557,9 +1662,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">gcloud</span> <span class="n">config</span> <span class="nb">set</span> <span class="n">auth</span><span class="o">/</span><span class="n">impersonate_service_account</span> <span class="o">&lt;</span><span class="n">service_account</span><span class="o">&gt;</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="defaults-unset">
-<h3>Defaults - Unset<a class="headerlink" href="#defaults-unset" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="defaults-unset">
+<h3>Defaults - Unset<a class="headerlink" href="#defaults-unset" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/config/unset">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># unset default project</span>
 <span class="n">gcloud</span> <span class="n">config</span> <span class="n">unset</span> <span class="n">core</span><span class="o">/</span><span class="n">project</span>
@@ -1572,9 +1677,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">gcloud</span> <span class="n">config</span> <span class="n">unset</span> <span class="n">auth</span><span class="o">/</span><span class="n">impersonate_service_account</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="impersonate-service-account">
-<h3>Impersonate Service Account<a class="headerlink" href="#impersonate-service-account" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="impersonate-service-account">
+<h3>Impersonate Service Account<a class="headerlink" href="#impersonate-service-account" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/iam/service-accounts">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># impersonate using user account</span>
 <span class="n">gcloud</span> <span class="n">iam</span> <span class="n">service</span><span class="o">-</span><span class="n">accounts</span> <span class="n">add</span><span class="o">-</span><span class="n">iam</span><span class="o">-</span><span class="n">policy</span><span class="o">-</span><span class="n">binding</span> <span class="o">&lt;</span><span class="n">target_acct</span><span class="o">&gt;</span> \
@@ -1590,20 +1695,20 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">gcloud</span> <span class="n">iam</span> <span class="n">service</span><span class="o">-</span><span class="n">accounts</span> <span class="n">get</span><span class="o">-</span><span class="n">iam</span><span class="o">-</span><span class="n">policy</span> <span class="o">&lt;</span><span class="n">target_acct</span><span class="o">&gt;</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="add-ssh-key-to-compute-os-login">
-<h3>Add SSH Key to Compute OS Login<a class="headerlink" href="#add-ssh-key-to-compute-os-login" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="add-ssh-key-to-compute-os-login">
+<h3>Add SSH Key to Compute OS Login<a class="headerlink" href="#add-ssh-key-to-compute-os-login" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/os-login">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">compute</span> <span class="n">os</span><span class="o">-</span><span class="n">login</span> <span class="n">ssh</span><span class="o">-</span><span class="n">keys</span> <span class="n">add</span> <span class="o">--</span><span class="n">key</span><span class="o">-</span><span class="n">file</span> <span class="o">&lt;</span><span class="n">public_key_file</span><span class="o">&gt;</span>
 </pre></div>
 </div>
-</div>
-</div>
+</section>
+</section>
 <hr class="docutils" />
-<div class="section" id="instance">
-<h2>Instance<a class="headerlink" href="#instance" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="instance-list">
-<h3>Instance - List<a class="headerlink" href="#instance-list" title="Permalink to this headline">¶</a></h3>
+<section id="instance">
+<h2>Instance<a class="headerlink" href="#instance" title="Permalink to this headline">#</a></h2>
+<section id="instance-list">
+<h3>Instance - List<a class="headerlink" href="#instance-list" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/instances/list">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">compute</span> <span class="n">instances</span> <span class="nb">list</span>
 
@@ -1612,9 +1717,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">compute</span><span class="o">.</span><span class="n">zones</span><span class="o">.</span><span class="n">list</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="instance-describe">
-<h3>Instance - Describe<a class="headerlink" href="#instance-describe" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="instance-describe">
+<h3>Instance - Describe<a class="headerlink" href="#instance-describe" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/instances/describe">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">compute</span> <span class="n">instances</span> <span class="n">describe</span> <span class="o">&lt;</span><span class="n">instance_name</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">zone</span> <span class="o">&lt;</span><span class="n">zone</span><span class="o">&gt;</span>
 
@@ -1622,9 +1727,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">compute</span><span class="o">.</span><span class="n">instances</span><span class="o">.</span><span class="n">get</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="instance-create">
-<h3>Instance - Create<a class="headerlink" href="#instance-create" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="instance-create">
+<h3>Instance - Create<a class="headerlink" href="#instance-create" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/instances/create">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># example</span>
 <span class="n">gcloud</span> <span class="n">compute</span> <span class="n">instances</span> <span class="n">create</span> <span class="o">&lt;</span><span class="n">instance_name</span><span class="o">&gt;</span> \
@@ -1642,9 +1747,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">compute</span><span class="o">.</span><span class="n">subnetworks</span><span class="o">.</span><span class="n">useExternalIp</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="instance-suspend">
-<h3>Instance - Suspend<a class="headerlink" href="#instance-suspend" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="instance-suspend">
+<h3>Instance - Suspend<a class="headerlink" href="#instance-suspend" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/instances/suspend">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">compute</span> <span class="n">instances</span> <span class="n">suspend</span> <span class="o">&lt;</span><span class="n">instance_name</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">zone</span> <span class="o">&lt;</span><span class="n">zone</span><span class="o">&gt;</span>
 
@@ -1654,9 +1759,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">compute</span><span class="o">.</span><span class="n">zoneOperations</span><span class="o">.</span><span class="n">get</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="instance-resume">
-<h3>Instance - Resume<a class="headerlink" href="#instance-resume" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="instance-resume">
+<h3>Instance - Resume<a class="headerlink" href="#instance-resume" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/instances/resume">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">compute</span> <span class="n">instances</span> <span class="n">resume</span> <span class="o">&lt;</span><span class="n">instance_name</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">zone</span> <span class="o">&lt;</span><span class="n">zone</span><span class="o">&gt;</span>
 
@@ -1666,9 +1771,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">compute</span><span class="o">.</span><span class="n">zoneOperations</span><span class="o">.</span><span class="n">get</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="instance-delete">
-<h3>Instance - Delete<a class="headerlink" href="#instance-delete" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="instance-delete">
+<h3>Instance - Delete<a class="headerlink" href="#instance-delete" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/instances/delete">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">compute</span> <span class="n">instances</span> <span class="n">delete</span> <span class="o">&lt;</span><span class="n">instance_name</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">zone</span> <span class="o">&lt;</span><span class="n">zone</span><span class="o">&gt;</span>
   
@@ -1677,9 +1782,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">compute</span><span class="o">.</span><span class="n">zoneOperations</span><span class="o">.</span><span class="n">get</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="instance-delete-access-config">
-<h3>Instance - Delete Access Config<a class="headerlink" href="#instance-delete-access-config" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="instance-delete-access-config">
+<h3>Instance - Delete Access Config<a class="headerlink" href="#instance-delete-access-config" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/instances/delete-access-config">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">compute</span> <span class="n">instances</span> <span class="n">delete</span><span class="o">-</span><span class="n">access</span><span class="o">-</span><span class="n">config</span> <span class="o">&lt;</span><span class="n">instance_name</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">zone</span> <span class="o">&lt;</span><span class="n">zone</span><span class="o">&gt;</span> \
     <span class="o">--</span><span class="n">access</span><span class="o">-</span><span class="n">config</span><span class="o">-</span><span class="n">name</span> <span class="o">&lt;</span><span class="n">access_config_name</span><span class="o">&gt;</span>
@@ -1689,9 +1794,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">compute</span><span class="o">.</span><span class="n">instances</span><span class="o">.</span><span class="n">get</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="instance-transfer-files">
-<h3>Instance - Transfer Files<a class="headerlink" href="#instance-transfer-files" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="instance-transfer-files">
+<h3>Instance - Transfer Files<a class="headerlink" href="#instance-transfer-files" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/scp">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># to instance</span>
 <span class="n">gcloud</span> <span class="n">compute</span> <span class="n">scp</span> <span class="o">&lt;</span><span class="n">local_file</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">instance_name</span><span class="o">&gt;</span><span class="p">:</span><span class="o">&lt;</span><span class="n">remote_dest</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">zone</span> <span class="o">&lt;</span><span class="n">zone</span><span class="o">&gt;</span>
@@ -1705,9 +1810,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">compute</span><span class="o">.</span><span class="n">instances</span><span class="o">.</span><span class="n">get</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="instance-group-create">
-<h3>Instance Group - Create<a class="headerlink" href="#instance-group-create" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="instance-group-create">
+<h3>Instance Group - Create<a class="headerlink" href="#instance-group-create" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/instance-groups/unmanaged/create">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># unmanaged group</span>
 <span class="n">gcloud</span> <span class="n">compute</span> <span class="n">instance</span><span class="o">-</span><span class="n">groups</span> <span class="n">unmanaged</span> <span class="n">create</span> <span class="o">&lt;</span><span class="n">group_name</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">zone</span> <span class="o">&lt;</span><span class="n">zone</span><span class="o">&gt;</span>
@@ -1716,9 +1821,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">compute</span><span class="o">.</span><span class="n">instanceGroups</span><span class="o">.</span><span class="n">create</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="instance-group-add-instance">
-<h3>Instance Group - Add Instance<a class="headerlink" href="#instance-group-add-instance" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="instance-group-add-instance">
+<h3>Instance Group - Add Instance<a class="headerlink" href="#instance-group-add-instance" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/instance-groups/unmanaged/add-instances">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># unmanaged group</span>
 <span class="n">gcloud</span> <span class="n">compute</span> <span class="n">instance</span><span class="o">-</span><span class="n">groups</span> <span class="n">unmanaged</span> <span class="n">add</span><span class="o">-</span><span class="n">instances</span> <span class="o">&lt;</span><span class="n">group_name</span><span class="o">&gt;</span> \
@@ -1730,9 +1835,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">compute</span><span class="o">.</span><span class="n">instances</span><span class="o">.</span><span class="n">use</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="instance-group-delete">
-<h3>Instance Group - Delete<a class="headerlink" href="#instance-group-delete" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="instance-group-delete">
+<h3>Instance Group - Delete<a class="headerlink" href="#instance-group-delete" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/instance-groups/unmanaged/delete">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">compute</span> <span class="n">instance</span><span class="o">-</span><span class="n">groups</span> <span class="n">unmanaged</span> <span class="n">delete</span> <span class="o">&lt;</span><span class="n">group_name</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">zone</span> <span class="o">&lt;</span><span class="n">zone</span><span class="o">&gt;</span>
 
@@ -1740,13 +1845,13 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">compute</span><span class="o">.</span><span class="n">instanceGroups</span><span class="o">.</span><span class="n">delete</span>
 </pre></div>
 </div>
-</div>
-</div>
+</section>
+</section>
 <hr class="docutils" />
-<div class="section" id="disk-snapshot">
-<h2>Disk / Snapshot<a class="headerlink" href="#disk-snapshot" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="disk-list">
-<h3>Disk - List<a class="headerlink" href="#disk-list" title="Permalink to this headline">¶</a></h3>
+<section id="disk-snapshot">
+<h2>Disk / Snapshot<a class="headerlink" href="#disk-snapshot" title="Permalink to this headline">#</a></h2>
+<section id="disk-list">
+<h3>Disk - List<a class="headerlink" href="#disk-list" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/disks/list">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">compute</span> <span class="n">disks</span> <span class="nb">list</span>
 
@@ -1754,9 +1859,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">compute</span><span class="o">.</span><span class="n">disks</span><span class="o">.</span><span class="n">list</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="disk-attach-to-instance">
-<h3>Disk - Attach to Instance<a class="headerlink" href="#disk-attach-to-instance" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="disk-attach-to-instance">
+<h3>Disk - Attach to Instance<a class="headerlink" href="#disk-attach-to-instance" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/instances/attach-disk">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">compute</span> <span class="n">instances</span> <span class="n">attach</span><span class="o">-</span><span class="n">disk</span> <span class="o">&lt;</span><span class="n">instance_name</span><span class="o">&gt;</span> \
     <span class="o">--</span><span class="n">project</span> <span class="o">&lt;</span><span class="n">dst_proj</span><span class="o">&gt;</span> \
@@ -1785,9 +1890,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">sudo</span> <span class="n">umount</span> <span class="o">&lt;</span><span class="n">mnt_pt</span><span class="o">&gt;</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="snapshot-create">
-<h3>Snapshot - Create<a class="headerlink" href="#snapshot-create" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="snapshot-create">
+<h3>Snapshot - Create<a class="headerlink" href="#snapshot-create" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/disks/snapshot">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">compute</span> <span class="n">disks</span> <span class="n">snapshot</span> <span class="o">&lt;</span><span class="n">disk_name</span><span class="o">&gt;</span> \
     <span class="o">--</span><span class="n">project</span> <span class="o">&lt;</span><span class="n">src_proj</span><span class="o">&gt;</span> \
@@ -1807,9 +1912,9 @@ const thebe_selector_output = ".output, .cell_output"
     <span class="o">--</span><span class="n">snapshot</span><span class="o">-</span><span class="n">names</span> <span class="n">compromised</span><span class="o">-</span><span class="n">ss</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="snapshot-create-disk">
-<h3>Snapshot - Create Disk<a class="headerlink" href="#snapshot-create-disk" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="snapshot-create-disk">
+<h3>Snapshot - Create Disk<a class="headerlink" href="#snapshot-create-disk" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/disks/create">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">compute</span> <span class="n">disks</span> <span class="n">create</span> <span class="o">&lt;</span><span class="n">disk_name</span><span class="o">&gt;</span> \ 
     <span class="o">--</span><span class="n">project</span> <span class="o">&lt;</span><span class="n">dst_proj</span><span class="o">&gt;</span> \
@@ -1829,9 +1934,9 @@ const thebe_selector_output = ".output, .cell_output"
     <span class="o">--</span><span class="n">source</span><span class="o">-</span><span class="n">snapshot</span> <span class="n">projects</span><span class="o">/</span><span class="n">compromised</span><span class="o">/</span><span class="k">global</span><span class="o">/</span><span class="n">snapshots</span><span class="o">/</span><span class="n">compromised</span><span class="o">-</span><span class="n">ss</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="snapshot-delete">
-<h3>Snapshot - Delete<a class="headerlink" href="#snapshot-delete" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="snapshot-delete">
+<h3>Snapshot - Delete<a class="headerlink" href="#snapshot-delete" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/snapshots/delete">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">compute</span> <span class="n">snapshots</span> <span class="n">delete</span> <span class="o">&lt;</span><span class="n">ss_name</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">project</span> <span class="o">&lt;</span><span class="n">src_proj</span><span class="o">&gt;</span>
 
@@ -1840,13 +1945,13 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">compute</span><span class="o">.</span><span class="n">globalOperations</span><span class="o">.</span><span class="n">get</span>
 </pre></div>
 </div>
-</div>
-</div>
+</section>
+</section>
 <hr class="docutils" />
-<div class="section" id="network">
-<h2>Network<a class="headerlink" href="#network" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="network-list">
-<h3>Network - List<a class="headerlink" href="#network-list" title="Permalink to this headline">¶</a></h3>
+<section id="network">
+<h2>Network<a class="headerlink" href="#network" title="Permalink to this headline">#</a></h2>
+<section id="network-list">
+<h3>Network - List<a class="headerlink" href="#network-list" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/networks/list">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">compute</span> <span class="n">networks</span> <span class="nb">list</span>
 
@@ -1854,9 +1959,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">compute</span><span class="o">.</span><span class="n">networks</span><span class="o">.</span><span class="n">list</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="network-describe">
-<h3>Network - Describe<a class="headerlink" href="#network-describe" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="network-describe">
+<h3>Network - Describe<a class="headerlink" href="#network-describe" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/networks/describe">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">compute</span> <span class="n">networks</span> <span class="n">describe</span> <span class="o">&lt;</span><span class="n">network_name</span><span class="o">&gt;</span>
 
@@ -1864,9 +1969,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">compute</span><span class="o">.</span><span class="n">networks</span><span class="o">.</span><span class="n">get</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="network-create">
-<h3>Network - Create<a class="headerlink" href="#network-create" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="network-create">
+<h3>Network - Create<a class="headerlink" href="#network-create" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/networks/create">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">compute</span> <span class="n">networks</span> <span class="n">create</span> <span class="o">&lt;</span><span class="n">network_name</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">subnet</span><span class="o">-</span><span class="n">mode</span><span class="o">=</span><span class="n">custom</span>
 
@@ -1874,9 +1979,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">compute</span><span class="o">.</span><span class="n">networks</span><span class="o">.</span><span class="n">create</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="network-delete">
-<h3>Network - Delete<a class="headerlink" href="#network-delete" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="network-delete">
+<h3>Network - Delete<a class="headerlink" href="#network-delete" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/networks/delete">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">compute</span> <span class="n">networks</span> <span class="n">delete</span> <span class="o">&lt;</span><span class="n">network_name</span><span class="o">&gt;</span>
 
@@ -1884,9 +1989,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">compute</span><span class="o">.</span><span class="n">networks</span><span class="o">.</span><span class="n">delete</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="subnet-create">
-<h3>Subnet - Create<a class="headerlink" href="#subnet-create" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="subnet-create">
+<h3>Subnet - Create<a class="headerlink" href="#subnet-create" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/networks/subnets/create">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">compute</span> <span class="n">networks</span> <span class="n">subnets</span> <span class="n">create</span> <span class="o">&lt;</span><span class="n">subnet_name</span><span class="o">&gt;</span> \
     <span class="o">--</span><span class="n">network</span><span class="o">=&lt;</span><span class="n">network_name</span><span class="o">&gt;</span> \
@@ -1898,9 +2003,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">compute</span><span class="o">.</span><span class="n">subnetworks</span><span class="o">.</span><span class="n">create</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="subnet-delete">
-<h3>Subnet - Delete<a class="headerlink" href="#subnet-delete" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="subnet-delete">
+<h3>Subnet - Delete<a class="headerlink" href="#subnet-delete" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/networks/subnets/delete">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">compute</span> <span class="n">networks</span> <span class="n">subnets</span> <span class="n">delete</span> <span class="o">&lt;</span><span class="n">subnet_name</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">region</span> <span class="o">&lt;</span><span class="n">subnet_region</span><span class="o">&gt;</span>
 
@@ -1908,9 +2013,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">compute</span><span class="o">.</span><span class="n">subnetworks</span><span class="o">.</span><span class="n">delete</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="subnet-enable-vpc-flow-logs">
-<h3>Subnet - Enable VPC Flow Logs<a class="headerlink" href="#subnet-enable-vpc-flow-logs" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="subnet-enable-vpc-flow-logs">
+<h3>Subnet - Enable VPC Flow Logs<a class="headerlink" href="#subnet-enable-vpc-flow-logs" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/networks/subnets/update">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">compute</span> <span class="n">networks</span> <span class="n">subnets</span> <span class="n">update</span> <span class="o">&lt;</span><span class="n">subnet_name</span><span class="o">&gt;</span> \ 
     <span class="o">--</span><span class="n">enable</span><span class="o">-</span><span class="n">flow</span><span class="o">-</span><span class="n">logs</span> \
@@ -1923,9 +2028,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">compute</span><span class="o">.</span><span class="n">subnetworks</span><span class="o">.</span><span class="n">update</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="subnet-disable-vpc-flow-logs">
-<h3>Subnet - Disable VPC Flow Logs<a class="headerlink" href="#subnet-disable-vpc-flow-logs" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="subnet-disable-vpc-flow-logs">
+<h3>Subnet - Disable VPC Flow Logs<a class="headerlink" href="#subnet-disable-vpc-flow-logs" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/networks/subnets/update">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">compute</span> <span class="n">networks</span> <span class="n">subnets</span> <span class="n">update</span> <span class="o">&lt;</span><span class="n">subnet_name</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">enable</span><span class="o">-</span><span class="n">flow</span><span class="o">-</span><span class="n">logs</span>
 
@@ -1934,9 +2039,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">compute</span><span class="o">.</span><span class="n">subnetworks</span><span class="o">.</span><span class="n">update</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="firewall-rule-list">
-<h3>Firewall Rule - List<a class="headerlink" href="#firewall-rule-list" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="firewall-rule-list">
+<h3>Firewall Rule - List<a class="headerlink" href="#firewall-rule-list" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/firewall-rules/list">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">compute</span> <span class="n">firewall</span><span class="o">-</span><span class="n">rules</span> <span class="nb">list</span>
 
@@ -1944,9 +2049,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">compute</span><span class="o">.</span><span class="n">firewalls</span><span class="o">.</span><span class="n">list</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="firewall-rule-describe">
-<h3>Firewall Rule - Describe<a class="headerlink" href="#firewall-rule-describe" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="firewall-rule-describe">
+<h3>Firewall Rule - Describe<a class="headerlink" href="#firewall-rule-describe" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/firewall-rules/describe">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">compute</span> <span class="n">firewall</span><span class="o">-</span><span class="n">rules</span> <span class="n">describe</span> <span class="o">&lt;</span><span class="n">firewall_rule</span><span class="o">&gt;</span>
 
@@ -1954,9 +2059,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">compute</span><span class="o">.</span><span class="n">firewalls</span><span class="o">.</span><span class="n">get</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="firewall-rule-create">
-<h3>Firewall Rule - Create<a class="headerlink" href="#firewall-rule-create" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="firewall-rule-create">
+<h3>Firewall Rule - Create<a class="headerlink" href="#firewall-rule-create" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/firewall-rules/create">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">compute</span> <span class="n">firewall</span><span class="o">-</span><span class="n">rules</span> <span class="n">create</span> <span class="o">&lt;</span><span class="n">firewall_rule</span><span class="o">&gt;</span> \
     <span class="o">--</span><span class="n">network</span> <span class="o">&lt;</span><span class="n">network_name</span><span class="o">&gt;</span> \
@@ -1973,9 +2078,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">compute</span><span class="o">.</span><span class="n">networks</span><span class="o">.</span><span class="n">updatePolicy</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="firewall-rule-delete">
-<h3>Firewall Rule - Delete<a class="headerlink" href="#firewall-rule-delete" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="firewall-rule-delete">
+<h3>Firewall Rule - Delete<a class="headerlink" href="#firewall-rule-delete" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/firewall-rules/delete">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">compute</span> <span class="n">firewall</span><span class="o">-</span><span class="n">rules</span> <span class="n">delete</span> <span class="o">&lt;</span><span class="n">firewall_rule</span><span class="o">&gt;</span>
 
@@ -1985,9 +2090,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">compute</span><span class="o">.</span><span class="n">globalOperations</span><span class="o">.</span><span class="n">get</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="firewall-rule-enable-logs">
-<h3>Firewall Rule - Enable Logs<a class="headerlink" href="#firewall-rule-enable-logs" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="firewall-rule-enable-logs">
+<h3>Firewall Rule - Enable Logs<a class="headerlink" href="#firewall-rule-enable-logs" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/firewall-rules/update">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">compute</span> <span class="n">firewall</span><span class="o">-</span><span class="n">rules</span> <span class="n">update</span> <span class="o">&lt;</span><span class="n">firewall_rule</span><span class="o">&gt;</span> \
     <span class="o">--</span><span class="n">enable</span><span class="o">-</span><span class="n">logging</span> \
@@ -1999,9 +2104,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">compute</span><span class="o">.</span><span class="n">networks</span><span class="o">.</span><span class="n">updatePolicy</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="firewall-rule-disable-logs">
-<h3>Firewall Rule - Disable Logs<a class="headerlink" href="#firewall-rule-disable-logs" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="firewall-rule-disable-logs">
+<h3>Firewall Rule - Disable Logs<a class="headerlink" href="#firewall-rule-disable-logs" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/firewall-rules/update">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">compute</span> <span class="n">firewall</span><span class="o">-</span><span class="n">rules</span> <span class="n">update</span> <span class="o">&lt;</span><span class="n">firewall_rule</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">enable</span><span class="o">-</span><span class="n">logging</span>
 
@@ -2011,9 +2116,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">compute</span><span class="o">.</span><span class="n">networks</span><span class="o">.</span><span class="n">updatePolicy</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="network-tag-view-instances">
-<h3>Network Tag - View Instances’<a class="headerlink" href="#network-tag-view-instances" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="network-tag-view-instances">
+<h3>Network Tag - View Instances’<a class="headerlink" href="#network-tag-view-instances" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/instances/list">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">compute</span> <span class="n">instances</span> <span class="nb">list</span> <span class="o">--</span><span class="nb">format</span><span class="o">=</span><span class="s1">&#39;table(name,status,tags.list())&#39;</span>
 <span class="c1"># OR</span>
@@ -2024,9 +2129,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">compute</span><span class="o">.</span><span class="n">zones</span><span class="o">.</span><span class="n">list</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="network-tag-add-to-instance">
-<h3>Network Tag - Add to Instance<a class="headerlink" href="#network-tag-add-to-instance" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="network-tag-add-to-instance">
+<h3>Network Tag - Add to Instance<a class="headerlink" href="#network-tag-add-to-instance" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/instances/add-tags">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">compute</span> <span class="n">instances</span> <span class="n">add</span><span class="o">-</span><span class="n">tags</span> <span class="o">&lt;</span><span class="n">instance_name</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">zone</span> <span class="o">&lt;</span><span class="n">zone</span><span class="o">&gt;</span> \
     <span class="o">--</span><span class="n">tags</span> <span class="o">&lt;</span><span class="n">tag_comma_separated</span><span class="o">&gt;</span>
@@ -2036,9 +2141,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">compute</span><span class="o">.</span><span class="n">instances</span><span class="o">.</span><span class="n">setTags</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="network-tag-remove-from-instance">
-<h3>Network Tag - Remove from Instance<a class="headerlink" href="#network-tag-remove-from-instance" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="network-tag-remove-from-instance">
+<h3>Network Tag - Remove from Instance<a class="headerlink" href="#network-tag-remove-from-instance" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/instances/remove-tags">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">compute</span> <span class="n">instances</span> <span class="n">remove</span><span class="o">-</span><span class="n">tags</span> <span class="o">&lt;</span><span class="n">instance_name</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">zone</span> <span class="o">&lt;</span><span class="n">zone</span><span class="o">&gt;</span> \
     <span class="o">--</span><span class="n">tags</span> <span class="o">&lt;</span><span class="n">tag_comma_separated</span><span class="o">&gt;</span>
@@ -2048,9 +2153,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">compute</span><span class="o">.</span><span class="n">instances</span><span class="o">.</span><span class="n">setTags</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="vpc-network-peering-create">
-<h3>VPC Network Peering - Create<a class="headerlink" href="#vpc-network-peering-create" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="vpc-network-peering-create">
+<h3>VPC Network Peering - Create<a class="headerlink" href="#vpc-network-peering-create" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/networks/peerings/create">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">compute</span> <span class="n">networks</span> <span class="n">peerings</span> <span class="n">create</span> <span class="o">&lt;</span><span class="n">peering_name</span><span class="o">&gt;</span> \
     <span class="o">--</span><span class="n">network</span><span class="o">=&lt;</span><span class="n">network_name</span><span class="o">&gt;</span>
@@ -2062,9 +2167,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">conmpute</span><span class="o">.</span><span class="n">networks</span><span class="o">.</span><span class="n">get</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="vpc-network-peering-delete">
-<h3>VPC Network Peering - Delete<a class="headerlink" href="#vpc-network-peering-delete" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="vpc-network-peering-delete">
+<h3>VPC Network Peering - Delete<a class="headerlink" href="#vpc-network-peering-delete" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/networks/peerings/delete">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">compute</span> <span class="n">networks</span> <span class="n">peerings</span> <span class="n">delete</span> <span class="o">&lt;</span><span class="n">peering_name</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">network</span><span class="o">=&lt;</span><span class="n">network_name</span><span class="o">&gt;</span>
     
@@ -2073,9 +2178,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">compute</span><span class="o">.</span><span class="n">networks</span><span class="o">.</span><span class="n">get</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="load-balancer-create-regional-health-check">
-<h3>Load Balancer - Create Regional Health Check<a class="headerlink" href="#load-balancer-create-regional-health-check" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="load-balancer-create-regional-health-check">
+<h3>Load Balancer - Create Regional Health Check<a class="headerlink" href="#load-balancer-create-regional-health-check" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/health-checks/create">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">compute</span> <span class="n">health</span><span class="o">-</span><span class="n">checks</span> <span class="n">create</span> <span class="n">http</span> <span class="o">&lt;</span><span class="n">healthcheck_name</span><span class="o">&gt;</span> \
     <span class="o">--</span><span class="n">region</span><span class="o">=&lt;</span><span class="n">region</span><span class="o">&gt;</span> \
@@ -2085,9 +2190,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">compute</span><span class="o">.</span><span class="n">regionHealthChecks</span><span class="o">.</span><span class="n">create</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="load-balancer-delete-regional-health-check">
-<h3>Load Balancer - Delete Regional Health Check<a class="headerlink" href="#load-balancer-delete-regional-health-check" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="load-balancer-delete-regional-health-check">
+<h3>Load Balancer - Delete Regional Health Check<a class="headerlink" href="#load-balancer-delete-regional-health-check" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/health-checks/delete">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">compute</span> <span class="n">health</span><span class="o">-</span><span class="n">checks</span> <span class="n">delete</span> <span class="o">&lt;</span><span class="n">healthcheck_name</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">region</span><span class="o">=&lt;</span><span class="n">region</span><span class="o">&gt;</span>
     
@@ -2095,9 +2200,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">compute</span><span class="o">.</span><span class="n">regionHealthChecks</span><span class="o">.</span><span class="n">delete</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="load-balancer-create-backend-service">
-<h3>Load Balancer -  Create Backend Service<a class="headerlink" href="#load-balancer-create-backend-service" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="load-balancer-create-backend-service">
+<h3>Load Balancer -  Create Backend Service<a class="headerlink" href="#load-balancer-create-backend-service" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/backend-services/create">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">compute</span> <span class="n">backend</span><span class="o">-</span><span class="n">services</span> <span class="n">create</span> <span class="o">&lt;</span><span class="n">backend_name</span><span class="o">&gt;</span> \
     <span class="o">--</span><span class="n">load</span><span class="o">-</span><span class="n">balancing</span><span class="o">-</span><span class="n">scheme</span><span class="o">=</span><span class="n">internal</span> \
@@ -2110,9 +2215,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">compute</span><span class="o">.</span><span class="n">regionBackendServices</span><span class="o">.</span><span class="n">create</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="load-balancer-add-instance-group-to-backend-service">
-<h3>Load Balancer - Add Instance Group to Backend Service<a class="headerlink" href="#load-balancer-add-instance-group-to-backend-service" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="load-balancer-add-instance-group-to-backend-service">
+<h3>Load Balancer - Add Instance Group to Backend Service<a class="headerlink" href="#load-balancer-add-instance-group-to-backend-service" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/backend-services/add-backend">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">compute</span> <span class="n">backend</span><span class="o">-</span><span class="n">services</span> <span class="n">add</span><span class="o">-</span><span class="n">backend</span> <span class="o">&lt;</span><span class="n">backend_name</span><span class="o">&gt;</span> \
     <span class="o">--</span><span class="n">region</span><span class="o">=&lt;</span><span class="n">region</span><span class="o">&gt;</span> \
@@ -2123,9 +2228,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">compute</span><span class="o">.</span><span class="n">regionBackendServices</span><span class="o">.</span><span class="n">update</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="load-balancer-delete-backend-service">
-<h3>Load Balancer - Delete Backend Service<a class="headerlink" href="#load-balancer-delete-backend-service" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="load-balancer-delete-backend-service">
+<h3>Load Balancer - Delete Backend Service<a class="headerlink" href="#load-balancer-delete-backend-service" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/backend-services/delete">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">compute</span> <span class="n">backend</span><span class="o">-</span><span class="n">services</span> <span class="n">delete</span> <span class="o">&lt;</span><span class="n">backend_name</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">region</span><span class="o">=&lt;</span><span class="n">region</span><span class="o">&gt;</span>
 
@@ -2133,9 +2238,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">compute</span><span class="o">.</span><span class="n">regionBackendServices</span><span class="o">.</span><span class="n">delete</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="load-balancer-create-forwarding-rule-frontend-service">
-<h3>Load Balancer - Create Forwarding Rule (Frontend Service)<a class="headerlink" href="#load-balancer-create-forwarding-rule-frontend-service" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="load-balancer-create-forwarding-rule-frontend-service">
+<h3>Load Balancer - Create Forwarding Rule (Frontend Service)<a class="headerlink" href="#load-balancer-create-forwarding-rule-frontend-service" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/forwarding-rules/create">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">compute</span> <span class="n">forwarding</span><span class="o">-</span><span class="n">rules</span> <span class="n">create</span> <span class="o">&lt;</span><span class="n">rule_name</span><span class="o">&gt;</span> \
     <span class="o">--</span><span class="n">region</span><span class="o">=&lt;</span><span class="n">region</span><span class="o">&gt;</span> \
@@ -2152,9 +2257,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">compute</span><span class="o">.</span><span class="n">subnetworks</span><span class="o">.</span><span class="n">use</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="load-balancer-delete-forwarding-rule-frontend-service">
-<h3>Load Balancer - Delete Forwarding Rule (Frontend Service)<a class="headerlink" href="#load-balancer-delete-forwarding-rule-frontend-service" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="load-balancer-delete-forwarding-rule-frontend-service">
+<h3>Load Balancer - Delete Forwarding Rule (Frontend Service)<a class="headerlink" href="#load-balancer-delete-forwarding-rule-frontend-service" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/forwarding-rules/delete">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">compute</span> <span class="n">forwarding</span><span class="o">-</span><span class="n">rules</span> <span class="n">delete</span> <span class="o">&lt;</span><span class="n">rule_name</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">region</span><span class="o">=&lt;</span><span class="n">region</span><span class="o">&gt;</span>
 
@@ -2162,9 +2267,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">compute</span><span class="o">.</span><span class="n">forwardingRules</span><span class="o">.</span><span class="n">delete</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="packet-mirroring-create-policy">
-<h3>Packet Mirroring - Create Policy<a class="headerlink" href="#packet-mirroring-create-policy" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="packet-mirroring-create-policy">
+<h3>Packet Mirroring - Create Policy<a class="headerlink" href="#packet-mirroring-create-policy" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/packet-mirrorings/create">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">compute</span> <span class="n">packet</span><span class="o">-</span><span class="n">mirrorings</span> <span class="n">create</span> <span class="o">&lt;</span><span class="n">policy_name</span><span class="o">&gt;</span> \
     <span class="o">--</span><span class="n">region</span><span class="o">=&lt;</span><span class="n">region</span><span class="o">&gt;</span> \
@@ -2187,9 +2292,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="c1"># Use Compute Security Admin Role instead</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="packet-mirroring-delete-policy">
-<h3>Packet Mirroring - Delete Policy<a class="headerlink" href="#packet-mirroring-delete-policy" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="packet-mirroring-delete-policy">
+<h3>Packet Mirroring - Delete Policy<a class="headerlink" href="#packet-mirroring-delete-policy" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/packet-mirrorings/delete">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">compute</span> <span class="n">packet</span><span class="o">-</span><span class="n">mirrorings</span> <span class="n">delete</span> <span class="o">&lt;</span><span class="n">policy_name</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">region</span><span class="o">=&lt;</span><span class="n">region</span><span class="o">&gt;</span>
 
@@ -2197,13 +2302,13 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">compute</span><span class="o">.</span><span class="n">packetMirrorings</span><span class="o">.</span><span class="n">update</span>
 </pre></div>
 </div>
-</div>
-</div>
+</section>
+</section>
 <hr class="docutils" />
-<div class="section" id="storage">
-<h2>Storage<a class="headerlink" href="#storage" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="bucket-list">
-<h3>Bucket - List<a class="headerlink" href="#bucket-list" title="Permalink to this headline">¶</a></h3>
+<section id="storage">
+<h2>Storage<a class="headerlink" href="#storage" title="Permalink to this headline">#</a></h2>
+<section id="bucket-list">
+<h3>Bucket - List<a class="headerlink" href="#bucket-list" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/storage/docs/gsutil/commands/ls">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gsutil</span> <span class="n">ls</span>
 
@@ -2211,9 +2316,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">storage</span><span class="o">.</span><span class="n">buckets</span><span class="o">.</span><span class="n">list</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="bucket-create">
-<h3>Bucket - Create<a class="headerlink" href="#bucket-create" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="bucket-create">
+<h3>Bucket - Create<a class="headerlink" href="#bucket-create" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/storage/docs/gsutil/commands/mb">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gsutil</span> <span class="n">mb</span> <span class="n">gs</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">bucket_name</span><span class="o">&gt;</span> 
 
@@ -2221,9 +2326,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">storage</span><span class="o">.</span><span class="n">buckets</span><span class="o">.</span><span class="n">create</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="bucket-list-acls">
-<h3>Bucket - List ACLs<a class="headerlink" href="#bucket-list-acls" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="bucket-list-acls">
+<h3>Bucket - List ACLs<a class="headerlink" href="#bucket-list-acls" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/storage/docs/gsutil/commands/acl">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gsutil</span> <span class="n">acl</span> <span class="n">get</span> <span class="n">gs</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">bucket_name</span><span class="o">&gt;</span> 
 
@@ -2233,9 +2338,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">storage</span><span class="o">.</span><span class="n">buckets</span><span class="o">.</span><span class="n">getIamPolicy</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="bucket-set-acls">
-<h3>Bucket - Set ACLs<a class="headerlink" href="#bucket-set-acls" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="bucket-set-acls">
+<h3>Bucket - Set ACLs<a class="headerlink" href="#bucket-set-acls" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/storage/docs/gsutil/commands/acl">Reference</a><br />
 <a class="reference external" href="https://cloud.google.com/storage/docs/access-control/lists#predefined-acl">Predefined ACLs</a> - e.g. <code class="docutils literal notranslate"><span class="pre">private</span></code>, <code class="docutils literal notranslate"><span class="pre">publicRead</span></code>, <code class="docutils literal notranslate"><span class="pre">authenticatedRead</span></code>, etc</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#  set bucket to private</span>
@@ -2250,9 +2355,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">storage</span><span class="o">.</span><span class="n">buckets</span><span class="o">.</span><span class="n">update</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="bucket-grant-write-permission-to-cloud-storage-analytics-group">
-<h3>Bucket - Grant Write Permission to Cloud-Storage-Analytics Group<a class="headerlink" href="#bucket-grant-write-permission-to-cloud-storage-analytics-group" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="bucket-grant-write-permission-to-cloud-storage-analytics-group">
+<h3>Bucket - Grant Write Permission to Cloud-Storage-Analytics Group<a class="headerlink" href="#bucket-grant-write-permission-to-cloud-storage-analytics-group" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/storage/docs/gsutil/commands/iam">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gsutil</span> <span class="n">iam</span> <span class="n">ch</span> <span class="n">group</span><span class="p">:</span><span class="n">cloud</span><span class="o">-</span><span class="n">storage</span><span class="o">-</span><span class="n">analytics</span><span class="nd">@google</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="n">legacyBucketWriter</span> <span class="n">gs</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">bucket_name</span><span class="o">&gt;</span>
 
@@ -2262,9 +2367,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">storage</span><span class="o">.</span><span class="n">buckets</span><span class="o">.</span><span class="n">setIamPolicy</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="bucket-enable-logging-for-target-bucket">
-<h3>Bucket - Enable Logging for Target Bucket<a class="headerlink" href="#bucket-enable-logging-for-target-bucket" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="bucket-enable-logging-for-target-bucket">
+<h3>Bucket - Enable Logging for Target Bucket<a class="headerlink" href="#bucket-enable-logging-for-target-bucket" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/storage/docs/gsutil/commands/logging">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gsutil</span> <span class="n">logging</span> <span class="nb">set</span> <span class="n">on</span> <span class="o">-</span><span class="n">b</span> <span class="n">gs</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">log_storage_bucket</span><span class="o">&gt;</span> <span class="n">gs</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">target_bucket</span><span class="o">&gt;</span>
 
@@ -2273,9 +2378,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">storage</span><span class="o">.</span><span class="n">buckets</span><span class="o">.</span><span class="n">update</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="bucket-object-list">
-<h3>Bucket Object - List<a class="headerlink" href="#bucket-object-list" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="bucket-object-list">
+<h3>Bucket Object - List<a class="headerlink" href="#bucket-object-list" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/storage/docs/gsutil/commands/ls">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gsutil</span> <span class="n">ls</span> <span class="n">gs</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">bucket_name</span><span class="o">&gt;</span>
 
@@ -2283,9 +2388,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">storage</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">list</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="bucket-object-list-acls">
-<h3>Bucket Object - List ACLs<a class="headerlink" href="#bucket-object-list-acls" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="bucket-object-list-acls">
+<h3>Bucket Object - List ACLs<a class="headerlink" href="#bucket-object-list-acls" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/storage/docs/gsutil/commands/acl">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gsutil</span> <span class="n">acl</span> <span class="n">get</span> <span class="n">gs</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">object_name</span><span class="o">&gt;</span>
 
@@ -2296,9 +2401,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">storage</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">list</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="bucket-object-set-acls">
-<h3>Bucket Object - Set ACLs<a class="headerlink" href="#bucket-object-set-acls" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="bucket-object-set-acls">
+<h3>Bucket Object - Set ACLs<a class="headerlink" href="#bucket-object-set-acls" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/storage/docs/gsutil/commands/acl">Reference</a><br />
 <a class="reference external" href="https://cloud.google.com/storage/docs/access-control/lists#predefined-acl">Predefined ACLs</a> - e.g. <code class="docutils literal notranslate"><span class="pre">private</span></code>, <code class="docutils literal notranslate"><span class="pre">publicRead</span></code>, <code class="docutils literal notranslate"><span class="pre">authenticatedRead</span></code>, etc</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#  set bucket object to private</span>
@@ -2314,9 +2419,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">storage</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">update</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="bucket-object-list-metadata">
-<h3>Bucket Object - List Metadata<a class="headerlink" href="#bucket-object-list-metadata" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="bucket-object-list-metadata">
+<h3>Bucket Object - List Metadata<a class="headerlink" href="#bucket-object-list-metadata" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/storage/docs/gsutil/commands/stat">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gsutil</span> <span class="n">stat</span> <span class="n">gs</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">object_name</span><span class="o">&gt;</span>
 
@@ -2324,9 +2429,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">storage</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="bucket-object-delete">
-<h3>Bucket Object - Delete<a class="headerlink" href="#bucket-object-delete" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="bucket-object-delete">
+<h3>Bucket Object - Delete<a class="headerlink" href="#bucket-object-delete" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/storage/docs/gsutil/commands/rm">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gsutil</span> <span class="n">rm</span> <span class="n">gs</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">object_name</span><span class="o">&gt;</span>
 
@@ -2334,13 +2439,13 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">storage</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">delete</span>
 </pre></div>
 </div>
-</div>
-</div>
+</section>
+</section>
 <hr class="docutils" />
-<div class="section" id="iam">
-<h2>IAM<a class="headerlink" href="#iam" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="custom-role-list">
-<h3>Custom Role - List<a class="headerlink" href="#custom-role-list" title="Permalink to this headline">¶</a></h3>
+<section id="iam">
+<h2>IAM<a class="headerlink" href="#iam" title="Permalink to this headline">#</a></h2>
+<section id="custom-role-list">
+<h3>Custom Role - List<a class="headerlink" href="#custom-role-list" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/iam/roles/list">Reference</a></p>
 <ul class="simple">
 <li><p>Project must be specified to list only custom roles (even if gcp CLI default project had been configured), else all available/curated roles will be listed</p></li>
@@ -2353,9 +2458,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">iam</span><span class="o">.</span><span class="n">roles</span><span class="o">.</span><span class="n">list</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="custom-role-describe">
-<h3>Custom Role - Describe<a class="headerlink" href="#custom-role-describe" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="custom-role-describe">
+<h3>Custom Role - Describe<a class="headerlink" href="#custom-role-describe" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/iam/roles/describe">Reference</a></p>
 <ul class="simple">
 <li><p>Project must be specified (even if gcp CLI default project had been configured)</p></li>
@@ -2367,9 +2472,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">iam</span><span class="o">.</span><span class="n">roles</span><span class="o">.</span><span class="n">get</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="custom-role-disable">
-<h3>Custom Role - Disable<a class="headerlink" href="#custom-role-disable" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="custom-role-disable">
+<h3>Custom Role - Disable<a class="headerlink" href="#custom-role-disable" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/iam/roles/update">Reference</a></p>
 <ul class="simple">
 <li><p>Project must be specified (even if gcp CLI default project had been configured)</p></li>
@@ -2382,9 +2487,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">iam</span><span class="o">.</span><span class="n">roles</span><span class="o">.</span><span class="n">get</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="custom-role-delete">
-<h3>Custom Role - Delete<a class="headerlink" href="#custom-role-delete" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="custom-role-delete">
+<h3>Custom Role - Delete<a class="headerlink" href="#custom-role-delete" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/iam/roles/delete">Reference</a></p>
 <ul class="simple">
 <li><p>Project must be specified (even if gcp CLI default project had been configured)</p></li>
@@ -2396,9 +2501,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">iam</span><span class="o">.</span><span class="n">roles</span><span class="o">.</span><span class="n">delete</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="service-account-list">
-<h3>Service Account - List<a class="headerlink" href="#service-account-list" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="service-account-list">
+<h3>Service Account - List<a class="headerlink" href="#service-account-list" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/iam/service-accounts/list">Reference</a></p>
 <ul class="simple">
 <li><p>Only service accounts created in the project</p></li>
@@ -2410,9 +2515,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">iam</span><span class="o">.</span><span class="n">serviceAccounts</span><span class="o">.</span><span class="n">list</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="service-account-describe">
-<h3>Service Account - Describe<a class="headerlink" href="#service-account-describe" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="service-account-describe">
+<h3>Service Account - Describe<a class="headerlink" href="#service-account-describe" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/iam/service-accounts/describe">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">iam</span> <span class="n">service</span><span class="o">-</span><span class="n">accounts</span> <span class="n">describe</span> <span class="o">&lt;</span><span class="n">svc_acct</span><span class="o">&gt;</span>
 
@@ -2420,9 +2525,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">iam</span><span class="o">.</span><span class="n">serviceAccounts</span><span class="o">.</span><span class="n">get</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="service-account-list-roles">
-<h3>Service Account - List Roles<a class="headerlink" href="#service-account-list-roles" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="service-account-list-roles">
+<h3>Service Account - List Roles<a class="headerlink" href="#service-account-list-roles" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/projects/get-iam-policy">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">projects</span> <span class="n">get</span><span class="o">-</span><span class="n">iam</span><span class="o">-</span><span class="n">policy</span> <span class="o">&lt;</span><span class="n">project</span><span class="o">&gt;</span> \
     <span class="o">--</span><span class="n">flatten</span><span class="o">=</span><span class="s2">&quot;bindings[].members&quot;</span> \
@@ -2433,9 +2538,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">resourcemanager</span><span class="o">.</span><span class="n">projects</span><span class="o">.</span><span class="n">getIamPolicy</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="service-account-describe-iam-policy">
-<h3>Service Account - Describe IAM Policy<a class="headerlink" href="#service-account-describe-iam-policy" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="service-account-describe-iam-policy">
+<h3>Service Account - Describe IAM Policy<a class="headerlink" href="#service-account-describe-iam-policy" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/iam/service-accounts/get-iam-policy">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">iam</span> <span class="n">service</span><span class="o">-</span><span class="n">accounts</span> <span class="n">get</span><span class="o">-</span><span class="n">iam</span><span class="o">-</span><span class="n">policy</span> <span class="o">&lt;</span><span class="n">svc_acct</span><span class="o">&gt;</span>
 
@@ -2443,9 +2548,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">iam</span><span class="o">.</span><span class="n">serviceAccounts</span><span class="o">.</span><span class="n">getIamPolicy</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="service-account-remove-iam-policy-binding">
-<h3>Service Account - Remove  IAM Policy Binding<a class="headerlink" href="#service-account-remove-iam-policy-binding" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="service-account-remove-iam-policy-binding">
+<h3>Service Account - Remove  IAM Policy Binding<a class="headerlink" href="#service-account-remove-iam-policy-binding" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/iam/service-accounts/remove-iam-policy-binding">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">iam</span> <span class="n">service</span><span class="o">-</span><span class="n">accounts</span> <span class="n">remove</span><span class="o">-</span><span class="n">iam</span><span class="o">-</span><span class="n">policy</span><span class="o">-</span><span class="n">binding</span> <span class="o">&lt;</span><span class="n">svc_acct</span><span class="o">&gt;</span> \
     <span class="o">--</span><span class="n">member</span><span class="o">=</span><span class="s1">&#39;&lt;serviceAccount_or_user&gt;:Maccount&gt;&#39;</span> \
@@ -2468,9 +2573,9 @@ const thebe_selector_output = ".output, .cell_output"
     <span class="o">--</span><span class="n">role</span><span class="o">=</span><span class="s1">&#39;roles/iam.serviceAccountUser&#39;</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="service-account-disable">
-<h3>Service Account - Disable<a class="headerlink" href="#service-account-disable" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="service-account-disable">
+<h3>Service Account - Disable<a class="headerlink" href="#service-account-disable" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/iam/service-accounts/disable">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">iam</span> <span class="n">service</span><span class="o">-</span><span class="n">accounts</span> <span class="n">disable</span> <span class="o">&lt;</span><span class="n">svc_acct</span><span class="o">&gt;</span>
 
@@ -2478,9 +2583,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">iam</span><span class="o">.</span><span class="n">serviceAccounts</span><span class="o">.</span><span class="n">disable</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="service-account-delete">
-<h3>Service Account - Delete<a class="headerlink" href="#service-account-delete" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="service-account-delete">
+<h3>Service Account - Delete<a class="headerlink" href="#service-account-delete" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/iam/service-accounts/delete">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">iam</span> <span class="n">service</span><span class="o">-</span><span class="n">accounts</span> <span class="n">delete</span> <span class="o">&lt;</span><span class="n">svc_acct</span><span class="o">&gt;</span>
 
@@ -2488,9 +2593,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">iam</span><span class="o">.</span><span class="n">serviceAccounts</span><span class="o">.</span><span class="n">delete</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="service-account-key-list">
-<h3>Service Account Key - List<a class="headerlink" href="#service-account-key-list" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="service-account-key-list">
+<h3>Service Account Key - List<a class="headerlink" href="#service-account-key-list" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/iam/service-accounts/keys/list">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">iam</span> <span class="n">service</span><span class="o">-</span><span class="n">accounts</span> <span class="n">keys</span> <span class="nb">list</span> <span class="o">--</span><span class="n">iam</span><span class="o">-</span><span class="n">account</span> <span class="o">&lt;</span><span class="n">svc_acct</span><span class="o">&gt;</span>
 
@@ -2498,9 +2603,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">iam</span><span class="o">.</span><span class="n">serviceAccountKeys</span><span class="o">.</span><span class="n">list</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="service-account-key-delete">
-<h3>Service Account Key - Delete<a class="headerlink" href="#service-account-key-delete" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="service-account-key-delete">
+<h3>Service Account Key - Delete<a class="headerlink" href="#service-account-key-delete" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/iam/service-accounts/keys/delete">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">iam</span> <span class="n">service</span><span class="o">-</span><span class="n">accounts</span> <span class="n">keys</span> <span class="n">delete</span> <span class="o">&lt;</span><span class="n">key_id</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">iam</span><span class="o">-</span><span class="n">account</span> <span class="o">&lt;</span><span class="n">svc_acct</span><span class="o">&gt;</span>
 
@@ -2508,9 +2613,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">iam</span><span class="o">.</span><span class="n">serviceAccountKeys</span><span class="o">.</span><span class="n">delete</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="user-account-list">
-<h3>User Account - List<a class="headerlink" href="#user-account-list" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="user-account-list">
+<h3>User Account - List<a class="headerlink" href="#user-account-list" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/projects/get-iam-policy">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">projects</span> <span class="n">get</span><span class="o">-</span><span class="n">iam</span><span class="o">-</span><span class="n">policy</span> <span class="o">&lt;</span><span class="n">project</span><span class="o">&gt;</span> <span class="o">|</span> <span class="n">grep</span> <span class="o">-</span><span class="n">i</span> <span class="n">user</span><span class="p">:</span> <span class="o">|</span> <span class="n">sort</span> <span class="o">|</span> <span class="n">uniq</span>
 
@@ -2518,9 +2623,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">resourcemanager</span><span class="o">.</span><span class="n">projects</span><span class="o">.</span><span class="n">getIamPolicy</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="user-account-list-roles">
-<h3>User Account - List Roles<a class="headerlink" href="#user-account-list-roles" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="user-account-list-roles">
+<h3>User Account - List Roles<a class="headerlink" href="#user-account-list-roles" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/projects/get-iam-policy">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">projects</span> <span class="n">get</span><span class="o">-</span><span class="n">iam</span><span class="o">-</span><span class="n">policy</span> <span class="o">&lt;</span><span class="n">project</span><span class="o">&gt;</span> \
     <span class="o">--</span><span class="n">flatten</span><span class="o">=</span><span class="s2">&quot;bindings[].members&quot;</span> \
@@ -2531,9 +2636,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">resourcemanager</span><span class="o">.</span><span class="n">projects</span><span class="o">.</span><span class="n">getIamPolicy</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="user-account-delete">
-<h3>User Account - Delete<a class="headerlink" href="#user-account-delete" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="user-account-delete">
+<h3>User Account - Delete<a class="headerlink" href="#user-account-delete" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/projects/remove-iam-policy-binding">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">projects</span> <span class="n">remove</span><span class="o">-</span><span class="n">iam</span><span class="o">-</span><span class="n">policy</span><span class="o">-</span><span class="n">binding</span> <span class="o">&lt;</span><span class="n">project</span><span class="o">&gt;</span> \
     <span class="o">--</span><span class="n">member</span><span class="o">=</span><span class="n">user</span><span class="p">:</span><span class="o">&lt;</span><span class="n">user_acct</span><span class="o">&gt;</span> \
@@ -2567,9 +2672,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">resourcemanager</span><span class="o">.</span><span class="n">projects</span><span class="o">.</span><span class="n">setIamPolicy</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="project-wide-ssh-key-list">
-<h3>Project-wide SSH Key - List<a class="headerlink" href="#project-wide-ssh-key-list" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="project-wide-ssh-key-list">
+<h3>Project-wide SSH Key - List<a class="headerlink" href="#project-wide-ssh-key-list" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/project-info/describe">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">compute</span> <span class="n">project</span><span class="o">-</span><span class="n">info</span> <span class="n">describe</span>
 
@@ -2577,9 +2682,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">compute</span><span class="o">.</span><span class="n">projects</span><span class="o">.</span><span class="n">get</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="project-wide-ssh-key-delete">
-<h3>Project-wide SSH Key - Delete<a class="headerlink" href="#project-wide-ssh-key-delete" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="project-wide-ssh-key-delete">
+<h3>Project-wide SSH Key - Delete<a class="headerlink" href="#project-wide-ssh-key-delete" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/project-info/add-metadata">Reference</a><br />
 <a class="reference external" href="https://cloud.google.com/compute/docs/connect/restrict-ssh-keys#gcloud_1">Reference to steps</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">compute</span> <span class="n">project</span><span class="o">-</span><span class="n">info</span> <span class="n">add</span><span class="o">-</span><span class="n">metadata</span> <span class="o">--</span><span class="n">metadata</span><span class="o">-</span><span class="n">from</span><span class="o">-</span><span class="n">file</span><span class="o">=</span><span class="n">ssh</span><span class="o">-</span><span class="n">keys</span><span class="o">=&lt;</span><span class="n">file</span><span class="o">&gt;</span>
@@ -2591,9 +2696,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">iam</span><span class="o">.</span><span class="n">serviceAccounts</span><span class="o">.</span><span class="n">actAs</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="instance-specific-ssh-keys-describe">
-<h3>Instance-specific SSH Keys - Describe<a class="headerlink" href="#instance-specific-ssh-keys-describe" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="instance-specific-ssh-keys-describe">
+<h3>Instance-specific SSH Keys - Describe<a class="headerlink" href="#instance-specific-ssh-keys-describe" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/instances/describe">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">compute</span> <span class="n">instances</span> <span class="n">describe</span> <span class="o">&lt;</span><span class="n">instance_name</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">zone</span> <span class="o">&lt;</span><span class="n">zone</span><span class="o">&gt;</span> \
     <span class="o">--</span><span class="nb">format</span><span class="o">=</span><span class="s2">&quot;value(metadata)&quot;</span>
@@ -2602,9 +2707,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">compute</span><span class="o">.</span><span class="n">instances</span><span class="o">.</span><span class="n">get</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="instance-specific-ssh-key-delete">
-<h3>Instance-specific SSH Key - Delete<a class="headerlink" href="#instance-specific-ssh-key-delete" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="instance-specific-ssh-key-delete">
+<h3>Instance-specific SSH Key - Delete<a class="headerlink" href="#instance-specific-ssh-key-delete" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/compute/instances/add-metadata">Reference</a><br />
 <a class="reference external" href="https://cloud.google.com/compute/docs/connect/restrict-ssh-keys#gcloud_2">Reference to steps</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">compute</span> <span class="n">instances</span> <span class="n">add</span><span class="o">-</span><span class="n">metadata</span> <span class="o">&lt;</span><span class="n">instance_name</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">metadata</span><span class="o">-</span><span class="n">from</span><span class="o">-</span><span class="n">file</span> <span class="n">ssh</span><span class="o">-</span><span class="n">keys</span><span class="o">=&lt;</span><span class="n">file</span><span class="o">&gt;</span>
@@ -2616,13 +2721,13 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">iam</span><span class="o">.</span><span class="n">serviceAccounts</span><span class="o">.</span><span class="n">actAs</span>
 </pre></div>
 </div>
-</div>
-</div>
+</section>
+</section>
 <hr class="docutils" />
-<div class="section" id="logging">
-<h2>Logging<a class="headerlink" href="#logging" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="logs-list">
-<h3>Logs - List<a class="headerlink" href="#logs-list" title="Permalink to this headline">¶</a></h3>
+<section id="logging">
+<h2>Logging<a class="headerlink" href="#logging" title="Permalink to this headline">#</a></h2>
+<section id="logs-list">
+<h3>Logs - List<a class="headerlink" href="#logs-list" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/logging/logs/list">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">logging</span> <span class="n">logs</span> <span class="nb">list</span>
 
@@ -2630,9 +2735,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">logging</span><span class="o">.</span><span class="n">logs</span><span class="o">.</span><span class="n">list</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="logs-query">
-<h3>Logs - Query<a class="headerlink" href="#logs-query" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="logs-query">
+<h3>Logs - Query<a class="headerlink" href="#logs-query" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/logging/read">Reference</a><br />
 <a class="reference external" href="https://cloud.google.com/logging/docs/view/building-queries">Reference to building queries</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># manual</span>
@@ -2646,9 +2751,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">gcloud</span> <span class="n">logging</span> <span class="n">read</span> <span class="s2">&quot;resource.type=gce_instance AND textPayload:SyncAddress&quot;</span> <span class="o">--</span><span class="n">limit</span> <span class="mi">10</span> <span class="o">--</span><span class="nb">format</span> <span class="n">json</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="log-sink-list">
-<h3>Log Sink - List<a class="headerlink" href="#log-sink-list" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="log-sink-list">
+<h3>Log Sink - List<a class="headerlink" href="#log-sink-list" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/logging/sinks/list">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">logging</span> <span class="n">sinks</span> <span class="nb">list</span>
 
@@ -2656,9 +2761,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">logging</span><span class="o">.</span><span class="n">sinks</span><span class="o">.</span><span class="n">list</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="log-sink-update">
-<h3>Log Sink - Update<a class="headerlink" href="#log-sink-update" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="log-sink-update">
+<h3>Log Sink - Update<a class="headerlink" href="#log-sink-update" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/logging/sinks/update">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">logging</span> <span class="n">sinks</span> <span class="n">update</span> <span class="o">&lt;</span><span class="n">sink_name</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">log</span><span class="o">-</span><span class="nb">filter</span><span class="o">=</span><span class="s1">&#39;&lt;filter&gt;&#39;</span>
 
@@ -2667,9 +2772,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">logging</span><span class="o">.</span><span class="n">sinks</span><span class="o">.</span><span class="n">update</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="log-sink-delete">
-<h3>Log Sink - Delete<a class="headerlink" href="#log-sink-delete" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="log-sink-delete">
+<h3>Log Sink - Delete<a class="headerlink" href="#log-sink-delete" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/logging/sinks/delete">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">logging</span> <span class="n">sinks</span> <span class="n">delete</span> <span class="o">&lt;</span><span class="n">sink</span><span class="o">&gt;</span>
 
@@ -2677,12 +2782,12 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">logging</span><span class="o">.</span><span class="n">sinks</span><span class="o">.</span><span class="n">delete</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="kubernetes">
-<h2>Kubernetes<a class="headerlink" href="#kubernetes" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="cluster-connect">
-<h3>Cluster - Connect<a class="headerlink" href="#cluster-connect" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="kubernetes">
+<h2>Kubernetes<a class="headerlink" href="#kubernetes" title="Permalink to this headline">#</a></h2>
+<section id="cluster-connect">
+<h3>Cluster - Connect<a class="headerlink" href="#cluster-connect" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://cloud.google.com/sdk/gcloud/reference/container/clusters/get-credentials">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">container</span> <span class="n">clusters</span> <span class="n">get</span><span class="o">-</span><span class="n">credentials</span> <span class="o">&lt;</span><span class="n">cluster_name</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">zone</span> <span class="o">&lt;</span><span class="n">zone</span><span class="o">&gt;</span>
 
@@ -2690,9 +2795,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">container</span><span class="o">.</span><span class="n">clusters</span><span class="o">.</span><span class="n">get</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="pod-exec">
-<h3>Pod - Exec<a class="headerlink" href="#pod-exec" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="pod-exec">
+<h3>Pod - Exec<a class="headerlink" href="#pod-exec" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#exec">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kubectl</span> <span class="n">exec</span> <span class="n">pod</span> <span class="o">&lt;</span><span class="n">pod_name</span><span class="o">&gt;</span> <span class="o">--</span> <span class="o">&lt;</span><span class="n">command</span><span class="o">&gt;</span>
 
@@ -2701,9 +2806,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">container</span><span class="o">.</span><span class="n">pods</span><span class="o">.</span><span class="n">get</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="pod-label">
-<h3>Pod - Label<a class="headerlink" href="#pod-label" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="pod-label">
+<h3>Pod - Label<a class="headerlink" href="#pod-label" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#label">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kubectl</span> <span class="n">label</span> <span class="n">pods</span> <span class="o">&lt;</span><span class="n">pod_name</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">label</span><span class="o">&gt;=&lt;</span><span class="n">true</span><span class="o">/</span><span class="n">false</span><span class="o">&gt;</span>
 
@@ -2715,9 +2820,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">kubectl</span> <span class="n">label</span> <span class="n">pods</span> <span class="n">nginx</span><span class="o">-</span><span class="n">deployment</span><span class="o">-</span><span class="n">c9445c769</span><span class="o">-</span><span class="n">ll8nv</span> <span class="n">quarantine</span><span class="o">=</span><span class="n">true</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="node-cordon">
-<h3>Node - Cordon<a class="headerlink" href="#node-cordon" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="node-cordon">
+<h3>Node - Cordon<a class="headerlink" href="#node-cordon" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#cordon">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kubectl</span> <span class="n">cordon</span> <span class="o">&lt;</span><span class="n">node_name</span><span class="o">&gt;</span>
 
@@ -2726,9 +2831,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">container</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">update</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="node-drain">
-<h3>Node - Drain<a class="headerlink" href="#node-drain" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="node-drain">
+<h3>Node - Drain<a class="headerlink" href="#node-drain" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#drain">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kubectl</span> <span class="n">drain</span> <span class="o">&lt;</span><span class="n">node_name</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">pod</span><span class="o">-</span><span class="n">selector</span><span class="o">=&lt;</span><span class="n">selector</span><span class="o">&gt;</span>
 
@@ -2742,9 +2847,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">kubectl</span> <span class="n">drain</span> <span class="n">gke</span><span class="o">-</span><span class="n">ir</span><span class="o">-</span><span class="n">test</span><span class="o">-</span><span class="n">cluster</span><span class="o">-</span><span class="n">default</span><span class="o">-</span><span class="n">pool</span><span class="o">-</span><span class="mi">0</span><span class="n">f6491d0</span><span class="o">-</span><span class="n">x8vv</span> <span class="o">--</span><span class="n">pod</span><span class="o">-</span><span class="n">selector</span><span class="o">=</span><span class="s1">&#39;!quarantine&#39;</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="service-list">
-<h3>Service - List<a class="headerlink" href="#service-list" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="service-list">
+<h3>Service - List<a class="headerlink" href="#service-list" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#get">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kubectl</span> <span class="n">get</span> <span class="n">services</span>
 
@@ -2752,9 +2857,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">container</span><span class="o">.</span><span class="n">services</span><span class="o">.</span><span class="n">list</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="service-delete">
-<h3>Service - Delete<a class="headerlink" href="#service-delete" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="service-delete">
+<h3>Service - Delete<a class="headerlink" href="#service-delete" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#delete">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kubectl</span> <span class="n">delete</span> <span class="n">service</span> <span class="o">&lt;</span><span class="n">service_name</span><span class="o">&gt;</span>
 
@@ -2762,9 +2867,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">container</span><span class="o">.</span><span class="n">services</span><span class="o">.</span><span class="n">delete</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="service-patch">
-<h3>Service - Patch<a class="headerlink" href="#service-patch" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="service-patch">
+<h3>Service - Patch<a class="headerlink" href="#service-patch" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#patch">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kubectl</span> <span class="n">patch</span> <span class="n">service</span> <span class="o">&lt;</span><span class="n">service</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">p</span> <span class="s1">&#39;{&quot;spec&quot;:{&quot;selector&quot;:{&quot;&lt;key&gt;&quot;: &quot;&lt;value&gt;&quot;}}}&#39;</span>
 
@@ -2773,9 +2878,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">container</span><span class="o">.</span><span class="n">services</span><span class="o">.</span><span class="n">update</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="network-policy-list">
-<h3>Network Policy - List<a class="headerlink" href="#network-policy-list" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="network-policy-list">
+<h3>Network Policy - List<a class="headerlink" href="#network-policy-list" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#get">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kubectl</span> <span class="n">get</span> <span class="n">networkpolicies</span>
 
@@ -2783,9 +2888,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">container</span><span class="o">.</span><span class="n">networkPolicies</span><span class="o">.</span><span class="n">list</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="network-policy-create">
-<h3>Network Policy - Create<a class="headerlink" href="#network-policy-create" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="network-policy-create">
+<h3>Network Policy - Create<a class="headerlink" href="#network-policy-create" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#apply">Reference</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kubectl</span> <span class="n">apply</span> <span class="o">-</span><span class="n">f</span> <span class="o">&lt;</span><span class="n">networkpolicy_yaml</span><span class="o">&gt;</span>
 
@@ -2794,9 +2899,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">container</span><span class="o">.</span><span class="n">networkPolicies</span><span class="o">.</span><span class="n">get</span>
 </pre></div>
 </div>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -2820,9 +2925,11 @@ const thebe_selector_output = ".output, .cell_output"
 
               </div>
               
-            
-                <!-- Previous / next buttons -->
-<div class='prev-next-area'> 
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
     <a class='left-prev' id="prev-link" href="vm_instances_for_ir.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
@@ -2838,24 +2945,28 @@ const thebe_selector_output = ".output, .cell_output"
     <i class="fas fa-angle-right"></i>
     </a>
 </div>
-            
+            </footer>
         </div>
     </div>
-    <footer class="footer">
-  <p>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Silv3rHorn<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
     
-      By Silv3rHorn<br/>
-    
-        &copy; Copyright 2021.<br/>
-  </p>
-</footer>
-</main>
+</div>
 
 
       </div>
     </div>
   
-  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
 
   </body>
 </html>

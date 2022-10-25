@@ -14,14 +14,12 @@ Commands listed are mainly for triaging. Commands to perform more in-depth inves
 ````
 
 ```shell
-# list all pods
-kubectl get pods --all-namespaces
-
-# get details of pod
-kubectl describe pods <pod-name>
-
 # get resource usage of all pods
 kubectl top pod
+
+# get resource usage of containers
+# column NAME shows the container name
+kubectl top pod --containers
 
 # get resource usage of all nodes
 kubectl top node
@@ -31,7 +29,7 @@ kubectl exec <pod-name> [-c <container-name>] -- date
 
 # get bash history
 kubectl exec <pod-name> [-c <container-name>] -- find / -iname '.bash_history'
-kubectl exec <pod-name> [-c <container-name>] -- cat <bash history location>
+kubectl exec <pod-name> [-c <container-name>] -- cat <bash-history-location>
 
 # get contents of /etc/passwd
 kubectl exec <pod-name> [-c <container-name>] -- cat /etc/passwd

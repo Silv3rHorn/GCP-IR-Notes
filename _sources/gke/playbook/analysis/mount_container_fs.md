@@ -21,7 +21,7 @@ gcloud compute ssh <analysis_vm> --zone <zone>
 
 # mount the disk of the compromised node
 lsblk
-sudo mount -o ro,noload /dev/<partition_id> /mnt/evidence/disk
+sudo mount -o ro,noload,noexec /dev/<partition_id> /mnt/evidence/disk
 
 # identify the compromised container
 sudo de.py -r /mnt/evidence/disk/var/lib/docker list all_containers | jq '.[].image_name'
@@ -46,12 +46,17 @@ gcloud compute ssh <analysis_vm> --zone <zone>
 
 # mount the disk of the compromised node
 lsblk
-sudo mount -o ro,noload /dev/<partition_id> /mnt/evidence/disk
+sudo mount -o ro,noload,noexec /dev/<partition_id> /mnt/evidence/disk
 
 # identify the compromised container
 sudo container-explorer -i /mnt/evidence/disk \
   --support-container-data /usr/bin/supportcontainer.yaml \
   list containers
+
+# describe specific container
+sudo container-explorer -i /mnt/evidence/disk \
+  --support-container-data /usr/bin/supportcontainer.yaml \
+  -n <namespace> info container <container_id>
 
 # mount the desired container
 sudo container-explorer -i /mnt/evidence/disk \
